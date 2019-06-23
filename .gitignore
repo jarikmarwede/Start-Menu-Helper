@@ -123,6 +123,9 @@ dmypy.json
 # Pyre type checker
 .pyre/
 
-
 # Editors
 .idea
+
+config.ini
+delete_based_on_file_type_list.txt
+flatten_folders_exceptions.txt
