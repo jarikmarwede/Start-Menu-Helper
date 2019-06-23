@@ -1,7 +1,9 @@
 import wx
+import wx.adv
 
 import configuration
-from gui import exception_list
+from gui.exception_list import ExceptionList
+from gui.task_bar_icon import TaskBarIcon
 
 
 class MainFrame(wx.Frame):
@@ -10,6 +12,10 @@ class MainFrame(wx.Frame):
     def __init__(self):
         """Set up Main Frame."""
         super().__init__(parent=None, title="Windows Start-menu helper")
+        self.icon = wx.Icon(name="icon.png", type=wx.BITMAP_TYPE_PNG)
+        self.SetIcon(self.icon)
+
+        self.task_bar_icon = TaskBarIcon(self.stop)
 
         self.config = configuration.Configuration()
 
@@ -90,17 +96,18 @@ class MainFrame(wx.Frame):
 
     def open_flatten_folders_exception_list(self):
         """Open the list that manages exceptions to the flatten folders option."""
-        exceptions_list = exception_list.ExceptionList(self, title="Flatten folders exceptions",
-                                                       file="flatten_folders_exceptions.txt")
+        exceptions_list = ExceptionList(self, title="Flatten folders exceptions",
+                                        file="flatten_folders_exceptions.txt")
         exceptions_list.ShowModal()
 
     def open_delete_based_on_file_type_list(self):
         """Open the list that manages the file types based on which files should be deleted."""
-        exceptions_list = exception_list.ExceptionList(self, title="Delete based on file type list",
-                                                       file="delete_based_on_file_type_list.txt")
+        exceptions_list = ExceptionList(self, title="Delete based on file type list",
+                                        file="delete_based_on_file_type_list.txt")
         exceptions_list.ShowModal()
 
     def save_config(self):
+        """Saves the current configuration."""
         self.config.set_value("flatten_folders_str",
                               self.flatten_folder_radiobox.GetStringSelection())
         self.config.set_value("delete_empty_folders_bool",
@@ -111,4 +118,12 @@ class MainFrame(wx.Frame):
         self.config.save()
 
     def start(self):
+        """Start scanning and hide GUI except for taskbar icon."""
+        self.Hide()
+        self.task_bar_icon.show()
         self.save_config()
+
+    def stop(self):
+        """Stop scanning and show GUI."""
+        self.task_bar_icon.hide()
+        self.Show()
