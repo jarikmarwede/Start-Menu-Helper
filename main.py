@@ -13,6 +13,8 @@ if __name__ == "__main__":
 
     app = wx.App()
     main_frame = gui.MainFrame()
-    if not arguments.start_in_background:
-        main_frame.Show()
+    if arguments.start_in_background:
+        main_frame.start_scanning()
+    else:
+        main_frame.stop_scanning()
     app.MainLoop()

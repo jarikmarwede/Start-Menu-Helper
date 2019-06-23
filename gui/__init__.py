@@ -15,7 +15,7 @@ class MainFrame(wx.Frame):
         self.icon = wx.Icon(name="icon.png", type=wx.BITMAP_TYPE_PNG)
         self.SetIcon(self.icon)
 
-        self.task_bar_icon = TaskBarIcon(self.stop)
+        self.task_bar_icon = TaskBarIcon(self.stop_scanning)
 
         self.config = configuration.Configuration()
 
@@ -55,7 +55,7 @@ class MainFrame(wx.Frame):
         self.delete_duplicates_checkbox.SetValue(self.config.get_value("delete_duplicates_bool"))
 
         self.start_button = wx.Button(main_panel, label="Start")
-        self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start())
+        self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
 
         # Sizers
         frame_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -117,13 +117,13 @@ class MainFrame(wx.Frame):
                               self.delete_based_on_file_type_radiobox.GetStringSelection())
         self.config.save()
 
-    def start(self):
+    def start_scanning(self):
         """Start scanning and hide GUI except for taskbar icon."""
         self.Hide()
         self.task_bar_icon.show()
         self.save_config()
 
-    def stop(self):
+    def stop_scanning(self):
         """Stop scanning and show GUI."""
         self.task_bar_icon.hide()
         self.Show()
