@@ -100,5 +100,15 @@ class MainFrame(wx.Frame):
                                                        file="delete_based_on_file_type_list.txt")
         exceptions_list.ShowModal()
 
-    def start(self):
+    def save_config(self):
+        self.config.set_value("flatten_folders_str",
+                              self.flatten_folder_radiobox.GetStringSelection())
+        self.config.set_value("delete_empty_folders_bool",
+                              self.delete_empty_folders_checkbox.IsChecked())
+        self.config.set_value("delete_duplicates_bool", self.delete_duplicates_checkbox.IsChecked())
+        self.config.set_value("delete_files_based_on_file_type_str",
+                              self.delete_based_on_file_type_radiobox.GetStringSelection())
         self.config.save()
+
+    def start(self):
+        self.save_config()
