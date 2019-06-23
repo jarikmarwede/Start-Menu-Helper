@@ -31,7 +31,7 @@ class Configuration:
         with open("config.ini", "w") as configfile:
             self._config.write(configfile)
 
-    def get_value(self, key: str) -> typing.Union[bool, int, float, str]:
+    def get(self, key: str) -> typing.Union[bool, int, float, str]:
         """Get a value from the configuration in its correct type."""
         if key.endswith("_bool"):
             return self._config["options"].getboolean(key)
@@ -42,6 +42,6 @@ class Configuration:
         else:
             return self._config["options"][key]
 
-    def set_value(self, key: str, value: typing.Union[bool, int, float, str]):
+    def set(self, key: str, value: typing.Union[bool, int, float, str]):
         """Set a value in the configuration."""
         self._config["options"][key] = str(value)

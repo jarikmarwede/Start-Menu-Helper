@@ -28,31 +28,31 @@ class MainFrame(wx.Frame):
                                                             "None"])
         self.flatten_folder_radiobox.Bind(wx.EVT_RADIOBOX, self.on_flatten_folder_radiobox)
         self.flatten_folder_radiobox.SetStringSelection(
-            self.config.get_value("flatten_folders_str"))
+            self.config.get("flatten_folders_str"))
 
         self.flatten_folder_exceptions_button = wx.Button(main_panel, label="Exceptions")
         self.flatten_folder_exceptions_button.Bind(wx.EVT_BUTTON, lambda
             _: self.open_flatten_folders_exception_list())
-        if self.config.get_value("flatten_folders_str") == "None":
+        if self.config.get("flatten_folders_str") == "None":
             self.flatten_folder_exceptions_button.Disable()
 
         self.delete_empty_folders_checkbox = wx.CheckBox(main_panel, label="Delete empty folders")
         self.delete_empty_folders_checkbox.SetValue(
-            self.config.get_value("delete_empty_folders_bool"))
+            self.config.get("delete_empty_folders_bool"))
 
         self.delete_based_on_file_type_radiobox = wx.RadioBox(main_panel,
                                                               label="Delete files with file types that are",
                                                               choices=["in the list",
                                                                        "not in the list"])
         self.delete_based_on_file_type_radiobox.SetStringSelection(
-            self.config.get_value("delete_files_based_on_file_type_str"))
+            self.config.get("delete_files_based_on_file_type_str"))
 
         self.delete_based_on_file_type_list_button = wx.Button(main_panel, label="List")
         self.delete_based_on_file_type_list_button.Bind(wx.EVT_BUTTON, lambda
             _: self.open_delete_based_on_file_type_list())
 
         self.delete_duplicates_checkbox = wx.CheckBox(main_panel, label="Delete duplicates")
-        self.delete_duplicates_checkbox.SetValue(self.config.get_value("delete_duplicates_bool"))
+        self.delete_duplicates_checkbox.SetValue(self.config.get("delete_duplicates_bool"))
 
         self.start_button = wx.Button(main_panel, label="Start")
         self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
@@ -108,12 +108,12 @@ class MainFrame(wx.Frame):
 
     def save_config(self):
         """Saves the current configuration."""
-        self.config.set_value("flatten_folders_str",
-                              self.flatten_folder_radiobox.GetStringSelection())
-        self.config.set_value("delete_empty_folders_bool",
-                              self.delete_empty_folders_checkbox.IsChecked())
-        self.config.set_value("delete_duplicates_bool", self.delete_duplicates_checkbox.IsChecked())
-        self.config.set_value("delete_files_based_on_file_type_str",
+        self.config.set("flatten_folders_str",
+                        self.flatten_folder_radiobox.GetStringSelection())
+        self.config.set("delete_empty_folders_bool",
+                        self.delete_empty_folders_checkbox.IsChecked())
+        self.config.set("delete_duplicates_bool", self.delete_duplicates_checkbox.IsChecked())
+        self.config.set("delete_files_based_on_file_type_str",
                               self.delete_based_on_file_type_radiobox.GetStringSelection())
         self.config.save()
 
