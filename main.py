@@ -16,5 +16,5 @@ if __name__ == "__main__":
     if arguments.start_in_background:
         main_frame.start_scanning()
     else:
-        main_frame.stop_scanning()
+        main_frame.Show()
     app.MainLoop()

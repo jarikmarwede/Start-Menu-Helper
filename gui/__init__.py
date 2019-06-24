@@ -2,6 +2,7 @@ import wx
 import wx.adv
 
 import configuration
+import start_menu_helper
 from gui.exception_list import ExceptionList
 from gui.task_bar_icon import TaskBarIcon
 
@@ -18,6 +19,7 @@ class MainFrame(wx.Frame):
         self.task_bar_icon = TaskBarIcon(self.stop_scanning)
 
         self.config = configuration.Configuration()
+        self.start_menu_helper = start_menu_helper.StartMenuHelper()
 
         # Widgets
         main_panel = wx.Panel(self)
@@ -114,7 +116,7 @@ class MainFrame(wx.Frame):
                         self.delete_empty_folders_checkbox.IsChecked())
         self.config.set("delete_duplicates_bool", self.delete_duplicates_checkbox.IsChecked())
         self.config.set("delete_files_based_on_file_type_str",
-                              self.delete_based_on_file_type_radiobox.GetStringSelection())
+                        self.delete_based_on_file_type_radiobox.GetStringSelection())
         self.config.save()
 
     def start_scanning(self):
@@ -122,8 +124,10 @@ class MainFrame(wx.Frame):
         self.Hide()
         self.task_bar_icon.show()
         self.save_config()
+        self.start_menu_helper.start_cleaning()
 
     def stop_scanning(self):
         """Stop scanning and show GUI."""
         self.task_bar_icon.hide()
         self.Show()
+        self.start_menu_helper.stop_cleaning()
