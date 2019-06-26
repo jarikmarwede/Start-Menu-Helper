@@ -1,5 +1,7 @@
+import getpass
 import pathlib
 import threading
+import time
 
 import configuration
 
@@ -10,12 +12,19 @@ class StartMenuHelper:
         self.start_menu_paths = [
             pathlib.WindowsPath(
                 pathlib.Path.home().drive + "/ProgramData/Microsoft/Windows/Start Menu"),
-            pathlib.Path.home().joinpath("/AppData/Roaming/Microsoft/Windows/Start Menu")
+            pathlib.WindowsPath(
+                pathlib.Path.home().drive + "/Users/" + getpass.getuser() + "/AppData/Roaming/Microsoft/Windows/Start Menu")
         ]
         self.start_menu_programs_path = [
             pathlib.WindowsPath(
                 pathlib.Path.home().drive + "/ProgramData/Microsoft/Windows/Start Menu/Programs"),
-            pathlib.Path.home().joinpath("/AppData/Roaming/Microsoft/Windows/Start Menu/Programs")
+            pathlib.WindowsPath(
+                pathlib.Path.home().drive + "/Users/" + getpass.getuser() + "/AppData/Roaming/Microsoft/Windows/Start Menu/Programs")
+        ]
+
+        self.protected_folders = [
+            "Startup",
+            "Administrative Tools"
         ]
 
         self._config = configuration.Configuration()
@@ -52,12 +61,14 @@ class StartMenuHelper:
                 self.delete_files_matching_file_types()
             else:
                 self.delete_files_not_matching_file_types()
+            time.sleep(5)
 
     def move_files_to_programs_directory(self):
         """Move all files to the programs directory."""
         for path in self.start_menu_paths:
             for item in path.iterdir():
-                item.replace(path.joinpath("Programs"))
+                if item.name != "Programs":
+                    item.replace(path.joinpath("Programs").joinpath(item.name))
 
     def delete_duplicates(self):
         """Delete duplicates of files."""
@@ -80,7 +91,8 @@ class StartMenuHelper:
         for path in self.start_menu_programs_path:
             directories = [item for item in path.iterdir() if item.is_dir()]
             for directory in directories:
-                if len(list(directory.iterdir())) <= 1 and directory.name not in whitelist:
+                if len(list(
+                        directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in self.protected_folders:
                     for item in directory.iterdir():
                         item.replace(path.joinpath(item.name))
 
@@ -94,7 +106,7 @@ class StartMenuHelper:
         for path in self.start_menu_programs_path:
             directories = [item for item in path.iterdir() if item.is_dir()]
             for directory in directories:
-                if directory.name not in whitelist:
+                if directory.name not in whitelist and directory.name not in self.protected_folders:
                     for item in directory.iterdir():
                         item.replace(path.joinpath(item.name))
 
@@ -103,7 +115,8 @@ class StartMenuHelper:
         for path in self.start_menu_programs_path:
             directories = [item for item in path.iterdir() if item.is_dir()]
             for directory in directories:
-                if len(list(directory.iterdir())) == 0:
+                if len(list(
+                        directory.iterdir())) == 0 and directory.name not in self.protected_folders:
                     directory.rmdir()
 
     def delete_broken_links(self):
