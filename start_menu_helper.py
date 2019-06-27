@@ -5,6 +5,7 @@ import time
 from typing import List
 
 import configuration
+import windows_shortcuts
 
 
 class StartMenuHelper:
@@ -49,6 +50,12 @@ class StartMenuHelper:
         self._config.reload()
         while not self._cleaner_thread.stopped():
             self.move_files_to_programs_directory()
+            if self._config.get("delete_files_based_on_file_type_str") == "in the list":
+                self.delete_files_matching_file_types()
+            else:
+                self.delete_files_not_matching_file_types()
+            if self._config.get("delete_broken_links_bool"):
+                self.delete_broken_links()
             if self._config.get("delete_duplicates_bool"):
                 self.delete_duplicates()
             if self._config.get("flatten_folders_str") == "All":
@@ -57,12 +64,6 @@ class StartMenuHelper:
                 self.flatten_folders_containing_one_file()
             if self._config.get("delete_empty_folders_bool"):
                 self.delete_empty_folders()
-            if self._config.get("delete_broken_links_bool"):
-                self.delete_broken_links()
-            if self._config.get("delete_files_based_on_file_type_str") == "in the list":
-                self.delete_files_matching_file_types()
-            else:
-                self.delete_files_not_matching_file_types()
             time.sleep(5)
 
     def move_files_to_programs_directory(self):
@@ -127,7 +128,7 @@ class StartMenuHelper:
             links = get_nested_links(path)
 
             for link in links:
-                if not link.exists():
+                if not link.exists() or not windows_shortcuts.read_shortcut(link).exists():
                     link.unlink()
 
     def delete_files_matching_file_types(self):
@@ -184,7 +185,7 @@ def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath
     links = []
     for current_directory in directories:
         for item in current_directory.iterdir():
-            if item.is_symlink():
+            if item.is_symlink() or windows_shortcuts.is_shortcut(item):
                 links.append(item)
     return links
 
