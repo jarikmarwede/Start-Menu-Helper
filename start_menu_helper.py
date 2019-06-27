@@ -2,6 +2,7 @@ import getpass
 import pathlib
 import threading
 import time
+from typing import List
 
 import configuration
 
@@ -89,7 +90,7 @@ class StartMenuHelper:
                 whitelist = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            directories = [item for item in path.iterdir() if item.is_dir()]
+            directories = get_nested_directories(path)
             for directory in directories:
                 if len(list(
                         directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in self.protected_folders:
@@ -104,7 +105,7 @@ class StartMenuHelper:
                 whitelist = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            directories = [item for item in path.iterdir() if item.is_dir()]
+            directories = get_nested_directories(path)
             for directory in directories:
                 if directory.name not in whitelist and directory.name not in self.protected_folders:
                     for item in directory.iterdir():
@@ -113,7 +114,7 @@ class StartMenuHelper:
     def delete_empty_folders(self):
         """Delete empty folders."""
         for path in self.start_menu_programs_path:
-            directories = [item for item in path.iterdir() if item.is_dir()]
+            directories = get_nested_directories(path)
             for directory in directories:
                 if len(list(
                         directory.iterdir())) == 0 and directory.name not in self.protected_folders:
@@ -122,7 +123,8 @@ class StartMenuHelper:
     def delete_broken_links(self):
         """Delete links that point to a non existing file."""
         for path in self.start_menu_programs_path:
-            links = [item for item in path.iterdir() if item.is_symlink()]
+            links = get_nested_links(path)
+
             for link in links:
                 if not link.exists():
                     link.unlink()
@@ -135,7 +137,8 @@ class StartMenuHelper:
                 file_types = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            files = [item for item in path.iterdir() if item.is_file()]
+            files = get_nested_files(path)
+
             for file_type in file_types:
                 for file in files:
                     if file.name.endswith(file_type) and file.is_file():
@@ -149,11 +152,40 @@ class StartMenuHelper:
                 file_types = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            files = [item for item in path.iterdir() if item.is_file()]
+            files = get_nested_files(path)
+
             for file_type in file_types:
                 for file in files:
                     if not file.name.endswith(file_type) and file.is_file():
                         file.unlink()
+
+
+def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+    directories = []
+    for item in directory.iterdir():
+        if item.is_dir():
+            directories.append(item)
+    return directories
+
+
+def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+    directories = get_nested_directories(directory)
+    files = []
+    for current_directory in directories:
+        for item in current_directory.iterdir():
+            if item.is_file():
+                files.append(item)
+    return files
+
+
+def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+    directories = get_nested_directories(directory)
+    links = []
+    for current_directory in directories:
+        for item in current_directory.iterdir():
+            if item.is_symlink():
+                links.append(item)
+    return links
 
 
 class StoppableThread(threading.Thread):
