@@ -53,6 +53,13 @@ class MainFrame(wx.Frame):
         self.delete_based_on_file_type_list_button.Bind(wx.EVT_BUTTON, lambda
             _: self.open_delete_based_on_file_type_list())
 
+        self.delete_files_with_names_containing_text = wx.StaticText(main_panel,
+                                                                     label="Delete files based on their name containing")
+
+        self.delete_files_with_names_containing_button = wx.Button(main_panel, label="List")
+        self.delete_files_with_names_containing_button.Bind(wx.EVT_BUTTON, lambda
+            _: self.open_delete_files_with_names_containing_list())
+
         self.delete_duplicates_checkbox = wx.CheckBox(main_panel, label="Delete duplicates")
         self.delete_duplicates_checkbox.SetValue(self.config.get("delete_duplicates_bool"))
 
@@ -76,12 +83,18 @@ class MainFrame(wx.Frame):
         main_sizer.Add(buttons_sizer, 0, wx.ALL | wx.ALIGN_CENTER, 10)
 
         folder_sizer.Add(self.flatten_folder_radiobox, 0, wx.ALL | wx.ALIGN_CENTER)
+        folder_sizer.AddSpacer(5)
         folder_sizer.Add(self.flatten_folder_exceptions_button, 0, wx.ALL | wx.ALIGN_CENTER)
         folder_sizer.AddSpacer(20)
         folder_sizer.Add(self.delete_empty_folders_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
 
         file_sizer.Add(self.delete_based_on_file_type_radiobox, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.AddSpacer(5)
         file_sizer.Add(self.delete_based_on_file_type_list_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.AddSpacer(20)
+        file_sizer.Add(self.delete_files_with_names_containing_text, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.AddSpacer(5)
+        file_sizer.Add(self.delete_files_with_names_containing_button, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(20)
         file_sizer.Add(self.delete_duplicates_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(20)
@@ -112,6 +125,12 @@ class MainFrame(wx.Frame):
         exceptions_list = ExceptionList(self, title="Delete based on file type list",
                                         file="delete_based_on_file_type_list.txt")
         exceptions_list.ShowModal()
+
+    def open_delete_files_with_names_containing_list(self):
+        """Open the list that manages the strings based on which files whose names contain them should be deleted."""
+        target_list = ExceptionList(self, title="Delete based on file name containing",
+                                    file="delete_files_with_names_containing.txt")
+        target_list.ShowModal()
 
     def save_config(self):
         """Saves the current configuration."""

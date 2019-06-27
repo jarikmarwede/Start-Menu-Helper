@@ -50,6 +50,8 @@ class StartMenuHelper:
         self._config.reload()
         while not self._cleaner_thread.stopped():
             self.move_files_to_programs_directory()
+
+            self.delete_files_with_names_containing()
             if self._config.get("delete_files_based_on_file_type_str") == "in the list":
                 self.delete_files_matching_file_types()
             else:
@@ -92,8 +94,7 @@ class StartMenuHelper:
                 whitelist = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            directories = get_nested_directories(path)
-            for directory in directories:
+            for directory in get_nested_directories(path):
                 if len(list(
                         directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in self.protected_folders:
                     for item in directory.iterdir():
@@ -107,8 +108,7 @@ class StartMenuHelper:
                 whitelist = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            directories = get_nested_directories(path)
-            for directory in directories:
+            for directory in get_nested_directories(path):
                 if directory.name not in whitelist and directory.name not in self.protected_folders:
                     for item in directory.iterdir():
                         item.replace(path.joinpath(item.name))
@@ -116,8 +116,7 @@ class StartMenuHelper:
     def delete_empty_folders(self):
         """Delete empty folders."""
         for path in self.start_menu_programs_path:
-            directories = get_nested_directories(path)
-            for directory in directories:
+            for directory in get_nested_directories(path):
                 if len(list(
                         directory.iterdir())) == 0 and directory.name not in self.protected_folders:
                     directory.rmdir()
@@ -125,11 +124,22 @@ class StartMenuHelper:
     def delete_broken_links(self):
         """Delete links that point to a non existing file."""
         for path in self.start_menu_programs_path:
-            links = get_nested_links(path)
-
-            for link in links:
+            for link in get_nested_links(path):
                 if not link.exists() or not windows_shortcuts.read_shortcut(link).exists():
                     link.unlink()
+
+    def delete_files_with_names_containing(self):
+        """Deletes files whose names contain the strings from the list."""
+        match_strings = []
+        if pathlib.WindowsPath("delete_files_with_names_containing.txt").exists():
+            with open("delete_files_with_names_containing.txt") as file:
+                match_strings = file.read().splitlines()
+
+        for path in self.start_menu_programs_path:
+            for file in get_nested_files(path):
+                for match_string in match_strings:
+                    if match_string in file.name:
+                        file.unlink()
 
     def delete_files_matching_file_types(self):
         """Delete files that match the file types."""
@@ -139,10 +149,8 @@ class StartMenuHelper:
                 file_types = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            files = get_nested_files(path)
-
             for file_type in file_types:
-                for file in files:
+                for file in get_nested_files(path):
                     if file.name.endswith(file_type) and file.is_file():
                         file.unlink()
 
@@ -154,10 +162,8 @@ class StartMenuHelper:
                 file_types = file.read().splitlines()
 
         for path in self.start_menu_programs_path:
-            files = get_nested_files(path)
-
             for file_type in file_types:
-                for file in files:
+                for file in get_nested_files(path):
                     if not file.name.endswith(file_type) and file.is_file():
                         file.unlink()
 
@@ -171,9 +177,8 @@ def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.Windo
 
 
 def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
-    directories = get_nested_directories(directory)
     files = []
-    for current_directory in directories:
+    for current_directory in get_nested_directories(directory):
         for item in current_directory.iterdir():
             if item.is_file():
                 files.append(item)
@@ -181,9 +186,8 @@ def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath
 
 
 def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
-    directories = get_nested_directories(directory)
     links = []
-    for current_directory in directories:
+    for current_directory in get_nested_directories(directory):
         for item in current_directory.iterdir():
             if item.is_symlink() or windows_shortcuts.is_shortcut(item):
                 links.append(item)
