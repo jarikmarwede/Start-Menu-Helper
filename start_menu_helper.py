@@ -95,10 +95,10 @@ class StartMenuHelper:
 
         for path in self.start_menu_programs_path:
             for directory in get_nested_directories(path):
-                if len(list(
+                if directory.exists() and len(list(
                         directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in self.protected_folders:
                     for item in directory.iterdir():
-                        item.replace(path.joinpath(item.name))
+                        item.replace(item.parents[1].joinpath(item.name))
 
     def flatten_all_folders(self):
         """Flatten all folders."""
@@ -150,8 +150,9 @@ class StartMenuHelper:
 
         for path in self.start_menu_programs_path:
             for file_type in file_types:
-                for file in get_nested_files(path):
-                    if file.name.endswith(file_type) and file.is_file():
+                files = get_nested_files(path)
+                for file, resolved_file in zip(files, resolve_files(files)):
+                    if resolved_file.name.endswith(file_type) and resolved_file.is_file():
                         file.unlink()
 
     def delete_files_not_matching_file_types(self):
@@ -169,14 +170,20 @@ class StartMenuHelper:
 
 
 def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+    """Return all directories inside directory and its child directories."""
     directories = []
     for item in directory.iterdir():
         if item.is_dir():
             directories.append(item)
+    for directory in directories:
+        for item in directory.iterdir():
+            if item.is_dir():
+                directories.append(item)
     return directories
 
 
 def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+    """Return all files inside directory and its child directories."""
     files = []
     for current_directory in get_nested_directories(directory):
         for item in current_directory.iterdir():
@@ -186,12 +193,24 @@ def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath
 
 
 def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+    """Return all links inside directory and its child directories."""
     links = []
     for current_directory in get_nested_directories(directory):
         for item in current_directory.iterdir():
             if item.is_symlink() or windows_shortcuts.is_shortcut(item):
                 links.append(item)
     return links
+
+
+def resolve_files(files: List[pathlib.WindowsPath]) -> List[pathlib.WindowsPath]:
+    """Resolve multiple files."""
+    resolved_files = []
+    for file in files:
+        if windows_shortcuts.is_shortcut(file):
+            resolved_files.append(windows_shortcuts.read_shortcut(file))
+        else:
+            resolved_files.append(file.resolve())
+    return resolved_files
 
 
 class StoppableThread(threading.Thread):

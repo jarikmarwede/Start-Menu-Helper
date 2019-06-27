@@ -43,7 +43,7 @@ class MainFrame(wx.Frame):
             self.config.get("delete_empty_folders_bool"))
 
         self.delete_based_on_file_type_radiobox = wx.RadioBox(main_panel,
-                                                              label="Delete files with file types that are",
+                                                              label="Delete files with file types that are (includes files added by shortcuts)",
                                                               choices=["in the list",
                                                                        "not in the list"])
         self.delete_based_on_file_type_radiobox.SetStringSelection(
