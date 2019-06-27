@@ -56,6 +56,9 @@ class MainFrame(wx.Frame):
         self.delete_duplicates_checkbox = wx.CheckBox(main_panel, label="Delete duplicates")
         self.delete_duplicates_checkbox.SetValue(self.config.get("delete_duplicates_bool"))
 
+        self.delete_broken_links_checkbox = wx.CheckBox(main_panel, label="Delete broken links")
+        self.delete_broken_links_checkbox.SetValue(self.config.get("delete_broken_links_bool"))
+
         self.start_button = wx.Button(main_panel, label="Start")
         self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
 
@@ -81,6 +84,8 @@ class MainFrame(wx.Frame):
         file_sizer.Add(self.delete_based_on_file_type_list_button, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(20)
         file_sizer.Add(self.delete_duplicates_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.AddSpacer(20)
+        file_sizer.Add(self.delete_broken_links_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
 
         buttons_sizer.Add(self.start_button, 0, wx.ALL | wx.ALIGN_CENTER)
 
@@ -117,6 +122,7 @@ class MainFrame(wx.Frame):
         self.config.set("delete_duplicates_bool", self.delete_duplicates_checkbox.IsChecked())
         self.config.set("delete_files_based_on_file_type_str",
                         self.delete_based_on_file_type_radiobox.GetStringSelection())
+        self.config.set("Delete_broken_links_bool", self.delete_broken_links_checkbox.IsChecked())
         self.config.save()
 
     def start_scanning(self):

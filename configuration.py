@@ -18,7 +18,8 @@ class Configuration:
             "flatten_folders_str": "None",
             "delete_empty_folders_bool": False,
             "delete_duplicates_bool": False,
-            "delete_files_based_on_file_type_str": "in the list"
+            "delete_files_based_on_file_type_str": "in the list",
+            "delete_broken_links_bool": False
         }
         self.save()
 

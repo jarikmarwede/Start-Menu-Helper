@@ -57,7 +57,8 @@ class StartMenuHelper:
                 self.flatten_folders_containing_one_file()
             if self._config.get("delete_empty_folders_bool"):
                 self.delete_empty_folders()
-            # TODO: Add delete_broken_links
+            if self._config.get("delete_broken_links_bool"):
+                self.delete_broken_links()
             if self._config.get("delete_files_based_on_file_type_str") == "in the list":
                 self.delete_files_matching_file_types()
             else:
