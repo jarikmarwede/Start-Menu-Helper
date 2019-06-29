@@ -10,7 +10,8 @@ _executable_path = pathlib.WindowsPath(constants.EXECUTABLE_PATH)
 def add():
     """Add the program to windows startup."""
     windows_shortcuts.create_shortcut(_startup_path.joinpath(constants.PROGRAM_NAME + ".lnk"),
-                                      _executable_path)
+                                      _executable_path,
+                                      arguments="-b")
 
 
 def remove():
