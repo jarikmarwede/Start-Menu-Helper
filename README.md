@@ -12,14 +12,18 @@ To set the program up for development on your computer:
 3. Install the required libraries using `pip install -r requirements.txt`
 
 ### Build executable
-To build the program run `.\generate_executable.cmd`
+To build the program:
+1. Install [PyInstaller](https://www.pyinstaller.org/index.html) using `pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz`
+2. Run `.\generate_executable.cmd`
 
 ### Generate setup
 To generate the setup:
-1. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) to "C:\Program Files (x86)"
-2. Run `.\generate_setup.cmd`
+1. [Build executable](https://github.com/jarikmarwede/Start-Menu-Helper#build-executable)
+2. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) to "C:\Program Files (x86)"
+3. Run `.\generate_setup.cmd`
 
 Alternatively if you do not want to install it to "C:\Program Files (x86)":
-1. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
-2. Open "setup_script.iss" in Inno Setup
-3. Click "Compile"
+1. [Build executable](https://github.com/jarikmarwede/Start-Menu-Helper#build-executable)
+2. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
+3. Open "setup_script.iss" in Inno Setup
+4. Click "Compile"
