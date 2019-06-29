@@ -3,7 +3,7 @@ import argparse
 
 import wx
 
-import gui
+from library import gui
 
 if __name__ == "__main__":
     argument_parser = argparse.ArgumentParser()

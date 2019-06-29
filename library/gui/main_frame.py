@@ -1,11 +1,9 @@
 import wx
 import wx.adv
 
-import configuration
-import start_menu_helper
-from gui.exception_list import ExceptionList
-from gui.task_bar_icon import TaskBarIcon
-from helpers import pyinstaller_asset, windows_startup
+from library import configuration, start_menu_helper
+from library.gui import ExceptionList, TaskBarIcon
+from library.helpers import pyinstaller_asset, windows_startup
 
 
 class MainFrame(wx.Frame):

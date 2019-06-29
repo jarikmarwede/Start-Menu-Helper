@@ -3,9 +3,9 @@ import pathlib
 import time
 from typing import List
 
-import configuration
-from helpers import windows_shortcuts
-from helpers.stopable_thread import StoppableThread
+from library import configuration
+from library.helpers import windows_shortcuts
+from library.helpers.stopable_thread import StoppableThread
 
 
 class StartMenuHelper:

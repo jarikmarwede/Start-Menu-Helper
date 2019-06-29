@@ -1,7 +1,7 @@
 import wx
 import wx.adv
 
-from helpers import pyinstaller_asset
+from library.helpers import pyinstaller_asset
 
 
 class TaskBarIcon(wx.adv.TaskBarIcon):

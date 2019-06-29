@@ -1,7 +1,7 @@
 import pathlib
 
-import constants
-from helpers import windows_shortcuts
+from library import constants
+from library.helpers import windows_shortcuts
 
 _startup_path = pathlib.WindowsPath(constants.STARTUP_PATH)
 _executable_path = pathlib.WindowsPath(constants.EXECUTABLE_PATH)
