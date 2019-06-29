@@ -18,12 +18,12 @@ To build the program:
 
 ### Generate setup
 To generate the setup:
-1. [Build executable](https://github.com/jarikmarwede/Start-Menu-Helper#build-executable)
+1. [Build executable](#build-executable)
 2. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) to "C:\Program Files (x86)"
 3. Run `.\generate_setup.cmd`
 
 Alternatively if you do not want to install it to "C:\Program Files (x86)":
-1. [Build executable](https://github.com/jarikmarwede/Start-Menu-Helper#build-executable)
+1. [Build executable](#build-executable)
 2. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
 3. Open "setup_script.iss" in Inno Setup
 4. Click "Compile"
