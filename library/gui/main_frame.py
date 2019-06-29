@@ -2,7 +2,8 @@ import wx
 import wx.adv
 
 from library import configuration, start_menu_helper
-from library.gui import ExceptionList, TaskBarIcon
+from library.gui.exception_list import ExceptionList
+from library.gui.task_bar_icon import TaskBarIcon
 from library.helpers import pyinstaller_asset, windows_startup
 
 
