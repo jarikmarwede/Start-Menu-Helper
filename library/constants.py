@@ -9,12 +9,12 @@ STARTUP_PATH = pathlib.Path.home().drive + "\\ProgramData\\Microsoft\\Windows\\S
 EXECUTABLE_PATH = pathlib.Path.cwd().joinpath(PROGRAM_NAME + ".exe")
 START_MENU_PATHS = [
     pathlib.WindowsPath(pathlib.Path.home().drive + "/ProgramData/Microsoft/Windows/Start Menu"),
-    APP_DATA_PATH.joinpath("/Roaming/Microsoft/Windows/Start Menu")
+    APP_DATA_PATH.joinpath("Roaming/Microsoft/Windows/Start Menu")
 ]
 START_MENU_PROGRAMS_PATHS = [
     pathlib.WindowsPath(
         pathlib.Path.home().drive + "/ProgramData/Microsoft/Windows/Start Menu/Programs"),
-    APP_DATA_PATH.joinpath("/Roaming/Microsoft/Windows/Start Menu/Programs")
+    APP_DATA_PATH.joinpath("Roaming/Microsoft/Windows/Start Menu/Programs")
 ]
 PROTECTED_FOLDERS = [
     "Startup",
