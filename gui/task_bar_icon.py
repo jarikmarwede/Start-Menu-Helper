@@ -11,7 +11,7 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
         self._open_callback = open_callback
 
-        self._icon = wx.Icon(name=pyinstaller_asset.asset_path("icon.png"), type=wx.BITMAP_TYPE_PNG)
+        self._icon = wx.Icon(name=pyinstaller_asset.asset_path("icon.ico"), type=wx.BITMAP_TYPE_ICO)
 
         self._task_bar_menu = wx.Menu()
         self._task_bar_menu.Append(wx.ID_OPEN, "Open")

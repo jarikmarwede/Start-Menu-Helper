@@ -14,7 +14,7 @@ class MainFrame(wx.Frame):
     def __init__(self):
         """Set up Main Frame."""
         super().__init__(parent=None, title="Windows Start-menu helper")
-        self.icon = wx.Icon(name=pyinstaller_asset.asset_path("icon.png"), type=wx.BITMAP_TYPE_PNG)
+        self.icon = wx.Icon(name=pyinstaller_asset.asset_path("icon.ico"), type=wx.BITMAP_TYPE_ICO)
         self.SetIcon(self.icon)
 
         self.task_bar_icon = TaskBarIcon(self.stop_scanning)
