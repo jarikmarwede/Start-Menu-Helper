@@ -30,124 +30,133 @@ class StartMenuHelper:
         """
         self._config.reload()
         while not self._cleaner_thread.stopped():
-            self.move_files_to_programs_directory()
+            move_files_to_programs_directory()
 
-            self.delete_files_with_names_containing()
+            delete_files_with_names_containing()
             if self._config.get("delete_files_based_on_file_type_str") == "in the list":
-                self.delete_files_matching_file_types()
+                delete_files_matching_file_types()
             else:
-                self.delete_files_not_matching_file_types()
+                delete_files_not_matching_file_types()
             if self._config.get("delete_broken_links_bool"):
-                self.delete_broken_links()
+                delete_broken_links()
             if self._config.get("delete_duplicates_bool"):
-                self.delete_duplicates()
+                delete_duplicates()
             if self._config.get("flatten_folders_str") == "All":
-                self.flatten_all_folders()
+                flatten_all_folders()
             elif self._config.get("flatten_folders_str") == "Only ones with one item in them":
-                self.flatten_folders_containing_one_file()
+                flatten_folders_containing_one_file()
             if self._config.get("delete_empty_folders_bool"):
-                self.delete_empty_folders()
+                delete_empty_folders()
             time.sleep(5)
 
-    def move_files_to_programs_directory(self):
-        """Move all files to the programs directory."""
-        for path in constants.START_MENU_PATHS:
-            for item in path.iterdir():
-                if item.name != "Programs":
-                    item.replace(path.joinpath("Programs").joinpath(item.name))
 
-    def delete_duplicates(self):
-        """Delete duplicates of files."""
-        found_files = []
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            files = [item for item in path.iterdir() if item.is_file()]
-            for file in files:
-                if file.name in found_files:
+def move_files_to_programs_directory():
+    """Move all files to the programs directory."""
+    for path in constants.START_MENU_PATHS:
+        for item in path.iterdir():
+            if item.name != "Programs":
+                item.replace(path.joinpath("Programs").joinpath(item.name))
+
+
+def delete_duplicates():
+    """Delete duplicates of files."""
+    found_files = []
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        files = [item for item in path.iterdir() if item.is_file()]
+        for file in files:
+            if file.name in found_files:
+                file.unlink()
+            else:
+                found_files.append(file.name)
+
+
+def flatten_folders_containing_one_file():
+    """Flatten folders that are only containing one file."""
+    whitelist = []
+    if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
+        with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
+            whitelist = file.read().splitlines()
+
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for directory in get_nested_directories(path):
+            if directory.exists() and len(list(
+                    directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in constants.PROTECTED_FOLDERS:
+                for item in directory.iterdir():
+                    item.replace(item.parents[1].joinpath(item.name))
+
+
+def flatten_all_folders():
+    """Flatten all folders."""
+    whitelist = []
+    if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
+        with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
+            whitelist = file.read().splitlines()
+
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for directory in get_nested_directories(path):
+            if directory.name not in whitelist and directory.name not in constants.PROTECTED_FOLDERS:
+                for item in directory.iterdir():
+                    item.replace(path.joinpath(item.name))
+
+
+def delete_empty_folders():
+    """Delete empty folders."""
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for directory in get_nested_directories(path):
+            if len(list(
+                    directory.iterdir())) == 0 and directory.name not in constants.PROTECTED_FOLDERS:
+                directory.rmdir()
+
+
+def delete_broken_links():
+    """Delete links that point to a non existing file."""
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for link in get_nested_links(path):
+            if not link.exists() or not windows_shortcuts.read_shortcut(link).exists():
+                link.unlink()
+
+
+def delete_files_with_names_containing():
+    """Deletes files whose names contain the strings from the list."""
+    match_strings = []
+    if constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH.exists():
+        with open(constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH) as file:
+            match_strings = file.read().splitlines()
+
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for file in get_nested_files(path):
+            for match_string in match_strings:
+                if match_string in file.name:
                     file.unlink()
-                else:
-                    found_files.append(file.name)
 
-    def flatten_folders_containing_one_file(self):
-        """Flatten folders that are only containing one file."""
-        whitelist = []
-        if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
-            with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
-                whitelist = file.read().splitlines()
 
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            for directory in get_nested_directories(path):
-                if directory.exists() and len(list(
-                        directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in constants.PROTECTED_FOLDERS:
-                    for item in directory.iterdir():
-                        item.replace(item.parents[1].joinpath(item.name))
+def delete_files_matching_file_types():
+    """Delete files that match the file types."""
+    file_types = []
+    if constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH.exists():
+        with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as file:
+            file_types = file.read().splitlines()
 
-    def flatten_all_folders(self):
-        """Flatten all folders."""
-        whitelist = []
-        if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
-            with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
-                whitelist = file.read().splitlines()
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for file_type in file_types:
+            files = get_nested_files(path)
+            for file, resolved_file in zip(files, resolve_files(files)):
+                if resolved_file.name.endswith(file_type) and resolved_file.is_file():
+                    file.unlink()
 
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            for directory in get_nested_directories(path):
-                if directory.name not in whitelist and directory.name not in constants.PROTECTED_FOLDERS:
-                    for item in directory.iterdir():
-                        item.replace(path.joinpath(item.name))
 
-    def delete_empty_folders(self):
-        """Delete empty folders."""
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            for directory in get_nested_directories(path):
-                if len(list(
-                        directory.iterdir())) == 0 and directory.name not in constants.PROTECTED_FOLDERS:
-                    directory.rmdir()
+def delete_files_not_matching_file_types():
+    """Delete files that do not match the file types."""
+    file_types = []
+    if constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH.exists():
+        with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as file:
+            file_types = file.read().splitlines()
 
-    def delete_broken_links(self):
-        """Delete links that point to a non existing file."""
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            for link in get_nested_links(path):
-                if not link.exists() or not windows_shortcuts.read_shortcut(link).exists():
-                    link.unlink()
-
-    def delete_files_with_names_containing(self):
-        """Deletes files whose names contain the strings from the list."""
-        match_strings = []
-        if constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH.exists():
-            with open(constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH) as file:
-                match_strings = file.read().splitlines()
-
-        for path in constants.START_MENU_PROGRAMS_PATHS:
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for file_type in file_types:
             for file in get_nested_files(path):
-                for match_string in match_strings:
-                    if match_string in file.name:
-                        file.unlink()
-
-    def delete_files_matching_file_types(self):
-        """Delete files that match the file types."""
-        file_types = []
-        if constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH.exists():
-            with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as file:
-                file_types = file.read().splitlines()
-
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            for file_type in file_types:
-                files = get_nested_files(path)
-                for file, resolved_file in zip(files, resolve_files(files)):
-                    if resolved_file.name.endswith(file_type) and resolved_file.is_file():
-                        file.unlink()
-
-    def delete_files_not_matching_file_types(self):
-        """Delete files that do not match the file types."""
-        file_types = []
-        if constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH.exists():
-            with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as file:
-                file_types = file.read().splitlines()
-
-        for path in constants.START_MENU_PROGRAMS_PATHS:
-            for file_type in file_types:
-                for file in get_nested_files(path):
-                    if not file.name.endswith(file_type) and file.is_file():
-                        file.unlink()
+                if not file.name.endswith(file_type) and file.is_file():
+                    file.unlink()
 
 
 def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
