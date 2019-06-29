@@ -13,6 +13,8 @@ class MainFrame(wx.Frame):
     def __init__(self):
         """Set up Main Frame."""
         super().__init__(parent=None, title=constants.PROGRAM_NAME)
+        self.Bind(wx.EVT_CLOSE, lambda _: wx.Exit())
+
         self.icon = wx.Icon(name=pyinstaller_asset.asset_path(constants.ICON_FILE_NAME),
                             type=wx.BITMAP_TYPE_ICO)
         self.SetIcon(self.icon)
