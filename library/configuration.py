@@ -1,6 +1,8 @@
 import configparser
 import typing
 
+from library import constants
+
 
 class Configuration:
 
@@ -25,11 +27,13 @@ class Configuration:
 
     def reload(self):
         """Reload the configuration from the configuration file."""
-        self._config.read("config.ini")
+        self._config.read(constants.CONFIGURATION_FILE_PATH)
 
     def save(self):
         """Save the configuration to the configuration file."""
-        with open("config.ini", "w") as configfile:
+        if not constants.CONFIGURATION_PATH.exists():
+            constants.CONFIGURATION_PATH.mkdir()
+        with open(constants.CONFIGURATION_FILE_PATH, "w") as configfile:
             self._config.write(configfile)
 
     def get(self, key: str) -> typing.Union[bool, int, float, str]:

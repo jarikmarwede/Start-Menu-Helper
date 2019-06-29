@@ -1,7 +1,7 @@
 import wx
 import wx.adv
 
-from library import configuration, start_menu_helper
+from library import configuration, constants, start_menu_helper
 from library.gui.exception_list import ExceptionList
 from library.gui.task_bar_icon import TaskBarIcon
 from library.helpers import pyinstaller_asset, windows_startup
@@ -123,19 +123,19 @@ class MainFrame(wx.Frame):
     def open_flatten_folders_exception_list(self):
         """Open the list that manages exceptions to the flatten folders option."""
         exceptions_list = ExceptionList(self, title="Flatten folders exceptions",
-                                        file="flatten_folders_exceptions.txt")
+                                        file=constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH)
         exceptions_list.ShowModal()
 
     def open_delete_based_on_file_type_list(self):
         """Open the list that manages the file types based on which files should be deleted."""
         exceptions_list = ExceptionList(self, title="Delete based on file type list",
-                                        file="delete_based_on_file_type_list.txt")
+                                        file=constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH)
         exceptions_list.ShowModal()
 
     def open_delete_files_with_names_containing_list(self):
         """Open the list that manages the strings based on which files whose names contain them should be deleted."""
         target_list = ExceptionList(self, title="Delete based on file name containing",
-                                    file="delete_files_with_names_containing.txt")
+                                    file=constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH)
         target_list.ShowModal()
 
     def save_config(self):
