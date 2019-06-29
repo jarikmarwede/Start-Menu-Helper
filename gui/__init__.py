@@ -70,6 +70,10 @@ class MainFrame(wx.Frame):
         self.start_button = wx.Button(main_panel, label="Start")
         self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
 
+        self.switch_startup_button = wx.Button(main_panel,
+                                               label="Remove from startup" if windows_startup.is_added() else "Add to startup")
+        self.switch_startup_button.Bind(wx.EVT_BUTTON, lambda _: self.switch_startup())
+
         # Sizers
         frame_sizer = wx.BoxSizer(wx.VERTICAL)
         main_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -102,6 +106,8 @@ class MainFrame(wx.Frame):
         file_sizer.Add(self.delete_broken_links_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
 
         buttons_sizer.Add(self.start_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        buttons_sizer.AddSpacer(10)
+        buttons_sizer.Add(self.switch_startup_button, 0, wx.ALL | wx.ALIGN_CENTER)
 
         main_panel.SetSizer(main_sizer)
 
