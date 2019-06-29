@@ -5,6 +5,7 @@ import configuration
 import start_menu_helper
 from gui.exception_list import ExceptionList
 from gui.task_bar_icon import TaskBarIcon
+from helpers import pyinstaller_asset, windows_startup
 
 
 class MainFrame(wx.Frame):
@@ -13,7 +14,7 @@ class MainFrame(wx.Frame):
     def __init__(self):
         """Set up Main Frame."""
         super().__init__(parent=None, title="Windows Start-menu helper")
-        self.icon = wx.Icon(name="icon.png", type=wx.BITMAP_TYPE_PNG)
+        self.icon = wx.Icon(name=pyinstaller_asset.asset_path("icon.png"), type=wx.BITMAP_TYPE_PNG)
         self.SetIcon(self.icon)
 
         self.task_bar_icon = TaskBarIcon(self.stop_scanning)
@@ -156,3 +157,14 @@ class MainFrame(wx.Frame):
         self.task_bar_icon.hide()
         self.Show()
         self.start_menu_helper.stop_cleaning()
+
+    def switch_startup(self):
+        """Switches between adding the program to startup and removing it."""
+        if windows_startup.is_added():
+            windows_startup.remove()
+            self.switch_startup_button.Label = "Add to startup"
+            self.switch_startup_button.Fit()
+        else:
+            windows_startup.add()
+            self.switch_startup_button.Label = "Remove from startup"
+            self.switch_startup_button.Fit()
