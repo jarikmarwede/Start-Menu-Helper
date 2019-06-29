@@ -48,9 +48,9 @@ class StartMenuHelper:
             if self._config.get("delete_empty_folders_bool"):
                 delete_empty_folders()
 
-            for _ in range(50):
+            for _ in range(5000):
                 if not self._cleaner_thread.stopped():
-                    time.sleep(0.1)
+                    time.sleep(0.001)
 
 
 def move_files_to_programs_directory():
