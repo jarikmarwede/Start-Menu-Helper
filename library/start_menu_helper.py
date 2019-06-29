@@ -47,7 +47,10 @@ class StartMenuHelper:
                 flatten_folders_containing_one_file()
             if self._config.get("delete_empty_folders_bool"):
                 delete_empty_folders()
-            time.sleep(5)
+
+            for _ in range(50):
+                if not self._cleaner_thread.stopped():
+                    time.sleep(0.1)
 
 
 def move_files_to_programs_directory():
