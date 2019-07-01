@@ -1,12 +1,21 @@
 # Start Menu Helper
 A tool to clean up your Windows Start Menu
 
+## Table of contents
+* [Introduction](#introduction)
+* [How to use](#how-to-use)
+  * [Warning](#exclamation-warning)
+  * [Backup](#floppy_disk-backup)
+  * [Cleaning](#cleaning)
+  * [Options](#gear-options)
+* [Development](#wrench-development)
+
 ## Introduction
 This program can help you clean your Start Menu in Windows. You set some options of how your Start Menu should be organized once and it helps you apply these rules.
 
 ## How to use
 ### :exclamation: Warning
-This program can delete or destroy your start menu if you configure it the wrong way. So be careful and __do not switch on an option without knowing what it does__. It is advised that you make a backup of the start menu folders before you use this program.
+This program can delete or destroy your start menu if you configure it the wrong way. So be careful and __do not switch on an option without knowing what it does__. It is advised that you make a [backup](#floppy_disk-backup) of the start menu folders before you use this program.
 
 ### :floppy_disk: Backup
 To backup your Start menu you just have to copy two folders to a save place on your computer.
@@ -15,7 +24,7 @@ To backup your Start menu you just have to copy two folders to a save place on y
 If something goes wrong with your start menu you can copy your backup into these folders again.
 
 ### Cleaning
-Once you have configured all of the options you can start the cleaning by pressing the "Start" button. Once you have clicked it the cleaning begins and the program will continually clean the start menu every few minutes. You can reopen the options window by clicking on the icon of the program in the windows taskbar. If you want to close it you can also right-click on it to open a menu where you can select "Close".
+Once you have configured all of the [options](#gear-options) you can start the cleaning by pressing the "Start" button. Once you have clicked it the cleaning begins and the program will continually clean the start menu every few minutes. You can reopen the options window by clicking on the icon of the program in the windows taskbar. If you want to close it you can also right-click on it to open a menu where you can select "Close".
 
 ### :gear: Options
 #### Folders
