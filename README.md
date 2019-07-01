@@ -3,6 +3,7 @@ A tool to clean up your Windows Start Menu
 
 ## Table of contents
 * [Introduction](#introduction)
+* [Installation](#installation)
 * [How to use](#how-to-use)
   * [Warning](#exclamation-warning)
   * [Backup](#floppy_disk-backup)
@@ -12,6 +13,9 @@ A tool to clean up your Windows Start Menu
 
 ## Introduction
 This program can help you clean your Start Menu in Windows. You set some options of how your Start Menu should be organized once and it helps you apply these rules.
+
+## Installation
+To install the program download the setup for the [latest version](https://github.com/jarikmarwede/Start-Menu-Helper/releases/latest) and run the setup after it is finished downloading.
 
 ## How to use
 ### :exclamation: Warning
