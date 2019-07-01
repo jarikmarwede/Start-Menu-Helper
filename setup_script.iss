@@ -1,6 +1,6 @@
 ; This file is a script for generating the setup of the app using Inno Setup (http://www.jrsoftware.org/isinfo.php)
 #define MyAppName "Start Menu Helper"
-#define MyAppVersion "0.1.0"
+#define MyAppVersion "1.0.0"
 #define MyAppPublisher "Jarik Marwede"
 #define MyAppURL "https://github.com/jarikmarwede/Start-Menu-Helper"
 #define MyAppExeName "Start Menu Helper.exe"
