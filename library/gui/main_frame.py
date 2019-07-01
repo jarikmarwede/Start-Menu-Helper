@@ -45,6 +45,11 @@ class MainFrame(wx.Frame):
         self.delete_empty_folders_checkbox.SetValue(
             self.config.get("delete_empty_folders_bool"))
 
+        self.delete_links_to_folders_checkbox = wx.CheckBox(main_panel,
+                                                            label="Delete links to folders")
+        self.delete_links_to_folders_checkbox.SetValue(
+            self.config.get("delete_links_to_folders_bool"))
+
         self.delete_based_on_file_type_radiobox = wx.RadioBox(main_panel,
                                                               label="Delete files with file types that are (includes files added by shortcuts)",
                                                               choices=["in the list",
@@ -94,6 +99,8 @@ class MainFrame(wx.Frame):
         folder_sizer.Add(self.flatten_folder_exceptions_button, 0, wx.ALL | wx.ALIGN_CENTER)
         folder_sizer.AddSpacer(20)
         folder_sizer.Add(self.delete_empty_folders_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
+        folder_sizer.AddSpacer(20)
+        folder_sizer.Add(self.delete_links_to_folders_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
 
         file_sizer.Add(self.delete_based_on_file_type_radiobox, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(5)
@@ -147,6 +154,8 @@ class MainFrame(wx.Frame):
                         self.flatten_folder_radiobox.GetStringSelection())
         self.config.set("delete_empty_folders_bool",
                         self.delete_empty_folders_checkbox.IsChecked())
+        self.config.set("delete_links_to_folders_bool",
+                        self.delete_links_to_folders_checkbox.IsChecked())
         self.config.set("delete_duplicates_bool", self.delete_duplicates_checkbox.IsChecked())
         self.config.set("delete_files_based_on_file_type_str",
                         self.delete_based_on_file_type_radiobox.GetStringSelection())

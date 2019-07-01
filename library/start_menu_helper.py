@@ -39,6 +39,8 @@ class StartMenuHelper:
                 delete_files_not_matching_file_types()
             if self._config.get("delete_broken_links_bool"):
                 delete_broken_links()
+            if self._config.get("delete_links_to_folders_bool"):
+                delete_links_to_folders()
             if self._config.get("delete_duplicates_bool"):
                 delete_duplicates()
             if self._config.get("flatten_folders_str") == "All":
@@ -160,6 +162,14 @@ def delete_files_not_matching_file_types():
             for file in get_nested_files(path):
                 if not file.name.endswith(file_type) and file.is_file():
                     file.unlink()
+
+
+def delete_links_to_folders():
+    """Delete links that link to folders."""
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for link in get_nested_links(path):
+            if windows_shortcuts.read_shortcut(link).is_dir():
+                link.unlink()
 
 
 def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
