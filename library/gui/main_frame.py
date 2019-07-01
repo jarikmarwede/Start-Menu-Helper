@@ -80,6 +80,8 @@ class MainFrame(wx.Frame):
         self.switch_startup_button = wx.Button(main_panel,
                                                label="Remove from startup" if windows_startup.is_added() else "Add to startup")
         self.switch_startup_button.Bind(wx.EVT_BUTTON, lambda _: self.switch_startup())
+        # Hide because the functionality of the button does not work currently
+        self.switch_startup_button.Hide()
 
         # Sizers
         frame_sizer = wx.BoxSizer(wx.VERTICAL)
@@ -115,8 +117,14 @@ class MainFrame(wx.Frame):
         file_sizer.Add(self.delete_broken_links_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
 
         buttons_sizer.Add(self.start_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        """
+        Hide the switch_startup_button because the functionality currently does not work
+        This is because the program needs admin privileges
+        which can not be given to programs during startup
+        
         buttons_sizer.AddSpacer(10)
         buttons_sizer.Add(self.switch_startup_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        """
 
         main_panel.SetSizer(main_sizer)
 
