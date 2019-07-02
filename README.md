@@ -3,15 +3,20 @@ A tool to clean up your Windows Start Menu
 
 ## Table of contents
 * [Introduction](#introduction)
+* [Installation](#installation)
 * [How to use](#how-to-use)
   * [Warning](#exclamation-warning)
   * [Backup](#floppy_disk-backup)
   * [Cleaning](#cleaning)
+  * [Run on startup](#run-on-startup)
   * [Options](#gear-options)
 * [Development](#wrench-development)
 
 ## Introduction
 This program can help you clean your Start Menu in Windows. You set some options of how your Start Menu should be organized once and it helps you apply these rules.
+
+## Installation
+To install the program download the setup for the [latest version](https://github.com/jarikmarwede/Start-Menu-Helper/releases/latest) and run the setup after it is finished downloading.
 
 ## How to use
 ### :exclamation: Warning
@@ -25,6 +30,20 @@ If something goes wrong with your start menu you can copy your backup into these
 
 ### Cleaning
 Once you have configured all of the [options](#gear-options) you can start the cleaning by pressing the "Start" button. Once you have clicked it the cleaning begins and the program will continually clean the start menu every few minutes. You can reopen the options window by clicking on the icon of the program in the windows taskbar. If you want to close it you can also right-click on it to open a menu where you can select "Close".
+
+### Run on startup
+If you want the program to automatically start cleaning in the background when you start your computer follow these steps:
+1. Open the "Task Scheduler" program by Microsoft
+2. Click on "Action" in the top menu
+3. Click on "Create task"
+4. Give the task a name, for example "Start Menu Cleaning"
+5. Click the "Run with highest privileges" checkbox
+6. In the "Triggers" section click on "New..."
+7. Select "At log on" in the "Begin the task" dropdown" and click "Ok"
+8. In the "Actions" section click on "New..."
+9. Click on "Browse" and select the "Start Menu Helper.exe" executable (you specified where it should be installed during the setup, probably in one of the "Program Files" folders)
+10. Write "--start-in-background" in the "Add arguments" field and click Ok
+11. Finally click on "Ok"
 
 ### :gear: Options
 #### Folders
