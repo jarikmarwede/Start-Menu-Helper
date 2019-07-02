@@ -1,4 +1,5 @@
 import pathlib
+import re
 import time
 from typing import List
 
@@ -131,7 +132,7 @@ def delete_files_with_names_containing():
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for file in get_nested_files(path):
             for match_string in match_strings:
-                if match_string in file.name:
+                if re.search(re.escape(match_string), file.name, flags=re.IGNORECASE):
                     file.unlink()
 
 
