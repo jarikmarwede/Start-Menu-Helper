@@ -187,7 +187,8 @@ def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.Windo
 
 def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
     """Return all files inside directory and its child directories."""
-    files = []
+    files = [item for item in directory.iterdir() if item.is_file()]
+
     for current_directory in get_nested_directories(directory):
         for item in current_directory.iterdir():
             if item.is_file():
@@ -197,7 +198,9 @@ def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath
 
 def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
     """Return all links inside directory and its child directories."""
-    links = []
+    links = [item for item in directory.iterdir() if
+             item.is_symlink() or windows_shortcuts.is_shortcut(item)]
+
     for current_directory in get_nested_directories(directory):
         for item in current_directory.iterdir():
             if item.is_symlink() or windows_shortcuts.is_shortcut(item):
