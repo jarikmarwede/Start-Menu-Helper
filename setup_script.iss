@@ -3,7 +3,7 @@
 #define MyAppVersion "1.0.2"
 #define MyAppPublisher "Jarik Marwede"
 #define MyAppURL "https://github.com/jarikmarwede/Start-Menu-Helper"
-#define MyAppExeName "Start Menu Helper.exe"
+#define MyAppExeName "Start_Menu_Helper.exe"
 #define MyAppLicenseName "LICENSE
 #define MyAppIconName "icon.ico"
 
