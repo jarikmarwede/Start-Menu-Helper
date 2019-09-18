@@ -27,4 +27,4 @@ jobs:
     - name: Lint with pylint
       run: |
         pip install pylint
-        pylint .
+        pylint ./library
