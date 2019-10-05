@@ -18,6 +18,7 @@ START_MENU_PROGRAMS_PATHS = [
     APP_DATA_PATH.joinpath("Roaming/Microsoft/Windows/Start Menu/Programs")
 ]
 PROTECTED_FOLDERS = [
+    "StartUp",
     "Startup",
     "Administrative Tools"
 ]
