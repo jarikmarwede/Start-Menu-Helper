@@ -1,9 +1,10 @@
 ; This file is a script for generating the setup of the app using Inno Setup (http://www.jrsoftware.org/isinfo.php)
 #define MyAppName "Start Menu Helper"
-#define MyAppVersion "1.0.2"
+#define MyAppVersion "1.0.3"
 #define MyAppPublisher "Jarik Marwede"
 #define MyAppURL "https://github.com/jarikmarwede/Start-Menu-Helper"
-#define MyAppExeName "Start_Menu_Helper.exe"
+#define MyAppExeName "Start Menu Helper.exe"
+#define MySetupName "Start_Menu_Helper_Setup"
 #define MyAppLicenseName "LICENSE
 #define MyAppIconName "icon.ico"
 
@@ -24,7 +25,7 @@ LicenseFile={#SourcePath}\{#MyAppLicenseName}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
 OutputDir={#SourcePath}
-OutputBaseFilename={#MyAppName} Setup
+OutputBaseFilename={#MySetupName}
 SetupIconFile={#SourcePath}\{#MyAppIconName}
 Compression=lzma
 SolidCompression=yes
@@ -37,7 +38,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#SourcePath}\Start Menu Helper.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourcePath}\{#MyAppName}.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
