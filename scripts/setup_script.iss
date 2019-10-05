@@ -21,12 +21,12 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile={#SourcePath}\{#MyAppLicenseName}
+LicenseFile={#SourcePath}..\{#MyAppLicenseName}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir={#SourcePath}
+OutputDir={#SourcePath}..
 OutputBaseFilename={#MySetupName}
-SetupIconFile={#SourcePath}\{#MyAppIconName}
+SetupIconFile={#SourcePath}..\{#MyAppIconName}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -38,7 +38,7 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#SourcePath}\{#MyAppName}.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "{#SourcePath}..\{#MyAppName}.exe"; DestDir: "{app}"; Flags: ignoreversion
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
