@@ -51,7 +51,7 @@ class StartMenuHelper:
             if self._config.get("delete_empty_folders_bool"):
                 delete_empty_folders()
 
-            for _ in range(300000):
+            for _ in range(constants.TIME_BETWEEN_SCANS_IN_MINUTES * 60 * 1000):
                 if not self._cleaner_thread.stopped():
                     time.sleep(0.001)
 

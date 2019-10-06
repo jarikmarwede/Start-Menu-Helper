@@ -3,6 +3,7 @@ import pathlib
 PROGRAM_NAME = "Start Menu Helper"
 VERSION_NUMBER = "1.0.3"
 ICON_FILE_NAME = "icon.ico"
+TIME_BETWEEN_SCANS_IN_MINUTES = 5
 APP_DATA_PATH = pathlib.Path.home().joinpath("AppData")
 CONFIGURATION_PATH = APP_DATA_PATH.joinpath("Roaming").joinpath(PROGRAM_NAME)
 CONFIGURATION_FILE_PATH = CONFIGURATION_PATH.joinpath("config.ini")
