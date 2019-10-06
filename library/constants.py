@@ -7,6 +7,7 @@ TIME_BETWEEN_SCANS_IN_MINUTES = 5
 APP_DATA_PATH = pathlib.Path.home().joinpath("AppData")
 CONFIGURATION_PATH = APP_DATA_PATH.joinpath("Roaming").joinpath(PROGRAM_NAME)
 CONFIGURATION_FILE_PATH = CONFIGURATION_PATH.joinpath("config.ini")
+LOG_FILE_PATH = CONFIGURATION_PATH.joinpath("log.txt")
 STARTUP_PATH = pathlib.Path.home().drive + "\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
 EXECUTABLE_PATH = pathlib.Path.cwd().joinpath(PROGRAM_NAME + ".exe")
 START_MENU_PATHS = [
