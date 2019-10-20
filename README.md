@@ -26,6 +26,7 @@ This program can delete or destroy your start menu if you configure it the wrong
 To backup your Start menu you just have to copy two folders to a save place on your computer.
 1. "__Drive letter of the drive you installed windows on__:\Users\\__your username__\AppData\Roaming\Microsoft\Windows\Start Menu"
 2. "__Drive letter of the drive you installed windows on__:\ProgramData\Microsoft\Windows\Start Menu"
+
 If something goes wrong with your start menu you can copy your backup into these folders again.
 
 ### Cleaning
