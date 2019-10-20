@@ -11,6 +11,9 @@ A tool to clean up your Windows Start Menu
   * [Run on startup](#run-on-startup)
   * [Options](#gear-options)
 * [Development](#wrench-development)
+  * [Setup](#setup)
+  * [Generate executable](#generate-executable)
+  * [Generate setup](#generate-setup)
 
 ## Introduction
 This program can help you clean your Start Menu in Windows. You set some options of how your Start Menu should be organized once and it helps you apply these rules.
@@ -85,19 +88,17 @@ To set the program up for development on your computer:
 2. Set up a virtual environment or make sure you have [Python](https://www.python.org/downloads/windows/) version 3.7.3+ installed
 3. Install the required libraries using `pip install -r requirements.txt`
 
-### Build executable
-To build the program:
+### Generate executable
+To just generate the executable for the program:
 1. Install [PyInstaller](https://www.pyinstaller.org/index.html) using `pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz`
-2. Run `.\generate_executable.cmd`
+2. Run `.\scripts\generate_executable.cmd`
 
 ### Generate setup
 To generate the setup:
-1. [Build executable](#build-executable)
-2. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) to "C:\Program Files (x86)"
-3. Run `.\generate_setup.cmd`
+1. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) to "C:\Program Files (x86)"
+2. Run `.\scripts\build.cmd`
 
 Alternatively if you do not want to install it to "C:\Program Files (x86)":
-1. [Build executable](#build-executable)
-2. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
-3. Open "setup_script.iss" in Inno Setup
-4. Click "Compile"
+1. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
+2. Open ".\scripts\setup_script.iss" in Inno Setup
+3. Click "Compile"
