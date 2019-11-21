@@ -1,5 +1,5 @@
 import configparser
-import typing
+from typing import Optional, Union
 
 from library import constants
 
@@ -7,7 +7,7 @@ from library import constants
 class Configuration:
 
     def __init__(self):
-        self._config = configparser.ConfigParser()
+        self._config: configparser.ConfigParser = configparser.ConfigParser()
 
         self.reload()
 
@@ -16,18 +16,18 @@ class Configuration:
         elif self._config["app_info"]["version"] != constants.VERSION_NUMBER:
             self._migrate_config()
 
-    def _create_new_config(self, options: dict = None):
+    def _create_new_config(self, options: Optional[dict] = None):
         """Create a new configuration file."""
         self._config["app_info"] = {
             "version": constants.VERSION_NUMBER
         }
         self._config["options"] = {
             "flatten_folders_str": "None",
-            "delete_empty_folders_bool": False,
-            "delete_links_to_folders_bool": False,
-            "delete_duplicates_bool": False,
+            "delete_empty_folders_bool": "False",
+            "delete_links_to_folders_bool": "False",
+            "delete_duplicates_bool": "False",
             "delete_files_based_on_file_type_str": "in the list",
-            "delete_broken_links_bool": False,
+            "delete_broken_links_bool": "False",
         }
 
         if options:
@@ -52,7 +52,7 @@ class Configuration:
         with open(constants.CONFIGURATION_FILE_PATH, "w") as configfile:
             self._config.write(configfile)
 
-    def get(self, key: str) -> typing.Union[bool, int, float, str]:
+    def get(self, key: str) -> Union[bool, int, float, str]:
         """Get a value from the configuration in its correct type."""
         if key.endswith("_bool"):
             return self._config["options"].getboolean(key)
@@ -63,6 +63,6 @@ class Configuration:
         else:
             return self._config["options"][key]
 
-    def set(self, key: str, value: typing.Union[bool, int, float, str]):
+    def set(self, key: str, value: Union[bool, int, float, str]):
         """Set a value in the configuration."""
         self._config["options"][key] = str(value)

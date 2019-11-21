@@ -11,7 +11,7 @@ class StoppableThread(threading.Thread):
 
     def __init__(self, *args, **kwargs):
         super(StoppableThread, self).__init__(*args, **kwargs)
-        self._stop_event = threading.Event()
+        self._stop_event: threading.Event = threading.Event()
 
     def stop(self):
         """Signals to the thread that it should stop."""

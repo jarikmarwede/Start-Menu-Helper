@@ -12,8 +12,8 @@ from library.helpers.stopable_thread import StoppableThread
 class StartMenuHelper:
 
     def __init__(self):
-        self._config = configuration.Configuration()
-        self._cleaner_thread = StoppableThread()
+        self._config: configuration.Configuration = configuration.Configuration()
+        self._cleaner_thread: StoppableThread = StoppableThread()
 
     def start_cleaning(self):
         """Starts the cleaning based on the configuration."""
@@ -187,7 +187,7 @@ def delete_links_to_folders():
                 logging.info(f"Deleted link to folder: {link.name}")
 
 
-def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+def get_nested_directories(directory: pathlib.Path) -> List[pathlib.Path]:
     """Return all directories inside directory and its child directories."""
     directories = []
     for item in directory.iterdir():
@@ -200,7 +200,7 @@ def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.Windo
     return directories
 
 
-def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+def get_nested_files(directory: pathlib.Path) -> List[pathlib.Path]:
     """Return all files inside directory and its child directories."""
     files = [item for item in directory.iterdir() if item.is_file()]
 
@@ -211,7 +211,7 @@ def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath
     return files
 
 
-def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
+def get_nested_links(directory: pathlib.Path) -> List[pathlib.Path]:
     """Return all links inside directory and its child directories."""
     links = [item for item in directory.iterdir() if
              item.is_symlink() or windows_shortcuts.is_shortcut(item)]
@@ -223,7 +223,7 @@ def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath
     return links
 
 
-def resolve_files(files: List[pathlib.WindowsPath]) -> List[pathlib.WindowsPath]:
+def resolve_files(files: List[pathlib.Path]) -> List[pathlib.Path]:
     """Resolve multiple files."""
     resolved_files = []
     for file in files:
