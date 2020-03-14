@@ -17,7 +17,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        pip install flake8 pylint mypy bandit
+        pip install flake8 flake8-eradicate pylint mypy bandit
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
