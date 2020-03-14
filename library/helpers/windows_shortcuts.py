@@ -13,7 +13,7 @@ def is_shortcut(file: pathlib.Path) -> bool:
 
 def read_shortcut(link: pathlib.Path) -> pathlib.Path:
     """Read the destination of a windows shortcut file."""
-    pythoncom.CoInitialize()
+    pythoncom.CoInitialize()  # pylint: disable=E1101
     shell = win32com.client.Dispatch("WScript.Shell")
     shortcut = shell.CreateShortCut(str(link))
     return pathlib.Path(shortcut.Targetpath)
