@@ -36,22 +36,23 @@ class StartMenuHelper:
             move_files_to_programs_directory()
 
             delete_files_with_names_containing()
-            if self._config.get("delete_files_based_on_file_type_str") == "in the list":
-                delete_files_matching_file_types()
-            else:
-                delete_files_not_matching_file_types()
-            if self._config.get("delete_broken_links_bool"):
-                delete_broken_links()
-            if self._config.get("delete_links_to_folders_bool"):
-                delete_links_to_folders()
-            if self._config.get("delete_duplicates_bool"):
-                delete_duplicates()
-            if self._config.get("flatten_folders_str") == "All":
-                flatten_all_folders()
-            elif self._config.get("flatten_folders_str") == "Only ones with one item in them":
-                flatten_folders_containing_one_file()
-            if self._config.get("delete_empty_folders_bool"):
-                delete_empty_folders()
+            cleaning_functions = {
+                delete_files_matching_file_types:
+                    self._config.get("delete_files_based_on_file_type_str") == "in the list",
+                delete_files_not_matching_file_types:
+                    self._config.get("delete_files_based_on_file_type_str") == "not in the list",
+                delete_broken_links: self._config.get("delete_broken_links_bool"),
+                delete_links_to_folders: self._config.get("delete_links_to_folders_bool"),
+                delete_duplicates: self._config.get("delete_duplicates_bool"),
+                flatten_all_folders: self._config.get("flatten_folders_str") == "All",
+                flatten_folders_containing_one_file:
+                    self._config.get("flatten_folders_str") == "Only ones with one item in them",
+                delete_empty_folders: self._config.get("delete_empty_folders_bool")
+            }
+
+            for function, turned_on in cleaning_functions.items():
+                if turned_on:
+                    function()
 
             for _ in range(constants.TIME_BETWEEN_SCANS_IN_MINUTES * 60 * 1000):
                 if not self._cleaner_thread.stopped():
@@ -88,8 +89,10 @@ def flatten_folders_containing_one_file():
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
-            if directory.exists() and len(list(
-                    directory.iterdir())) <= 1 and directory.name not in whitelist and directory.name not in constants.PROTECTED_FOLDERS:
+            if (directory.exists() and
+                    len(list(directory.iterdir())) <= 1 and
+                    directory.name not in whitelist and
+                    directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(item.parents[1].joinpath(item.name))
                 logging.info(f"Flattened folder: {directory.name}")
@@ -104,7 +107,8 @@ def flatten_all_folders():
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
-            if directory.name not in whitelist and directory.name not in constants.PROTECTED_FOLDERS:
+            if (directory.name not in whitelist and
+                    directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(path.joinpath(item.name))
                 logging.info(f"Flattened folder: {directory.name}")
@@ -114,8 +118,8 @@ def delete_empty_folders():
     """Delete empty folders."""
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
-            if len(list(
-                    directory.iterdir())) == 0 and directory.name not in constants.PROTECTED_FOLDERS:
+            if (len(list(directory.iterdir())) == 0 and
+                    directory.name not in constants.PROTECTED_FOLDERS):
                 directory.rmdir()
                 logging.info(f"Deleted empty folder: {directory.name}")
 
@@ -159,7 +163,8 @@ def delete_files_matching_file_types():
                 if resolved_file.name.endswith(file_type) and resolved_file.is_file():
                     file.unlink()
                     logging.info(
-                        f"Deleted file \"{file.name}\" because it had the extension \"{file_type}\"")
+                        f"Deleted file \"{file.name}\" because it had the extension \"{file_type}\""
+                    )
 
 
 def delete_files_not_matching_file_types():
@@ -175,7 +180,9 @@ def delete_files_not_matching_file_types():
                 if not file.name.endswith(file_type) and file.is_file():
                     file.unlink()
                     logging.info(
-                        f"Deleted file \"{file.name}\" because it did not have any of the required extensions")
+                        f"Deleted file \"{file.name}\" because it did not have any of "
+                        "the required extensions"
+                    )
 
 
 def delete_links_to_folders():

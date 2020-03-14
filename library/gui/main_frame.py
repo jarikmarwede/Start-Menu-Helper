@@ -36,8 +36,10 @@ class MainFrame(wx.Frame):
             self.config.get("flatten_folders_str"))
 
         self.flatten_folder_exceptions_button = wx.Button(main_panel, label="Exceptions")
-        self.flatten_folder_exceptions_button.Bind(wx.EVT_BUTTON, lambda
-            _: self.open_flatten_folders_exception_list())
+        self.flatten_folder_exceptions_button.Bind(
+            wx.EVT_BUTTON,
+            lambda: self.open_flatten_folders_exception_list()
+        )
         if self.config.get("flatten_folders_str") == "None":
             self.flatten_folder_exceptions_button.Disable()
 
@@ -50,23 +52,31 @@ class MainFrame(wx.Frame):
         self.delete_links_to_folders_checkbox.SetValue(
             self.config.get("delete_links_to_folders_bool"))
 
-        self.delete_based_on_file_type_radiobox = wx.RadioBox(main_panel,
-                                                              label="Delete files with file types that are (includes files added by shortcuts)",
-                                                              choices=["in the list",
-                                                                       "not in the list"])
+        self.delete_based_on_file_type_radiobox = wx.RadioBox(
+            main_panel,
+            label="Delete files with file types that are (includes files added by shortcuts)",
+            choices=["in the list", "not in the list"]
+        )
         self.delete_based_on_file_type_radiobox.SetStringSelection(
-            self.config.get("delete_files_based_on_file_type_str"))
+            self.config.get("delete_files_based_on_file_type_str")
+        )
 
         self.delete_based_on_file_type_list_button = wx.Button(main_panel, label="List")
-        self.delete_based_on_file_type_list_button.Bind(wx.EVT_BUTTON, lambda
-            _: self.open_delete_based_on_file_type_list())
+        self.delete_based_on_file_type_list_button.Bind(
+            wx.EVT_BUTTON,
+            lambda: self.open_delete_based_on_file_type_list()
+        )
 
-        self.delete_files_with_names_containing_text = wx.StaticText(main_panel,
-                                                                     label="Delete files based on their name containing")
+        self.delete_files_with_names_containing_text = wx.StaticText(
+            main_panel,
+            label="Delete files based on their name containing"
+        )
 
         self.delete_files_with_names_containing_button = wx.Button(main_panel, label="List")
-        self.delete_files_with_names_containing_button.Bind(wx.EVT_BUTTON, lambda
-            _: self.open_delete_files_with_names_containing_list())
+        self.delete_files_with_names_containing_button.Bind(
+            wx.EVT_BUTTON,
+            lambda: self.open_delete_files_with_names_containing_list()
+        )
 
         self.delete_duplicates_checkbox = wx.CheckBox(main_panel, label="Delete duplicates")
         self.delete_duplicates_checkbox.SetValue(self.config.get("delete_duplicates_bool"))
@@ -77,8 +87,10 @@ class MainFrame(wx.Frame):
         self.start_button = wx.Button(main_panel, label="Start")
         self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
 
-        self.switch_startup_button = wx.Button(main_panel,
-                                               label="Remove from startup" if windows_startup.is_added() else "Add to startup")
+        self.switch_startup_button = wx.Button(
+            main_panel,
+            label="Remove from startup" if windows_startup.is_added() else "Add to startup"
+        )
         self.switch_startup_button.Bind(wx.EVT_BUTTON, lambda _: self.switch_startup())
         # Hide because the functionality of the button does not work currently
         self.switch_startup_button.Hide()
@@ -121,7 +133,7 @@ class MainFrame(wx.Frame):
         Hide the switch_startup_button because the functionality currently does not work
         This is because the program needs admin privileges
         which can not be given to programs during startup
-        
+
         buttons_sizer.AddSpacer(10)
         buttons_sizer.Add(self.switch_startup_button, 0, wx.ALL | wx.ALIGN_CENTER)
         """
@@ -151,7 +163,9 @@ class MainFrame(wx.Frame):
         exceptions_list.ShowModal()
 
     def open_delete_files_with_names_containing_list(self):
-        """Open the list that manages the strings based on which files whose names contain them should be deleted."""
+        """Open the list that manages the strings based on which files
+         whose names contain them should be deleted.
+         """
         target_list = ExceptionList(self, title="Delete based on file name containing",
                                     file=constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH)
         target_list.ShowModal()
