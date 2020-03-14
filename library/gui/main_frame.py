@@ -1,3 +1,4 @@
+"""Main frame of the GUI."""
 import wx
 import wx.adv
 
@@ -38,7 +39,7 @@ class MainFrame(wx.Frame):
         self.flatten_folder_exceptions_button = wx.Button(main_panel, label="Exceptions")
         self.flatten_folder_exceptions_button.Bind(
             wx.EVT_BUTTON,
-            lambda: self.open_flatten_folders_exception_list()
+            lambda _: self.open_flatten_folders_exception_list()
         )
         if self.config.get("flatten_folders_str") == "None":
             self.flatten_folder_exceptions_button.Disable()
@@ -61,21 +62,21 @@ class MainFrame(wx.Frame):
             self.config.get("delete_files_based_on_file_type_str")
         )
 
-        self.delete_based_on_file_type_list_button = wx.Button(main_panel, label="List")
-        self.delete_based_on_file_type_list_button.Bind(
+        delete_based_on_file_type_list_button = wx.Button(main_panel, label="List")
+        delete_based_on_file_type_list_button.Bind(
             wx.EVT_BUTTON,
-            lambda: self.open_delete_based_on_file_type_list()
+            lambda _: self.open_delete_based_on_file_type_list()
         )
 
-        self.delete_files_with_names_containing_text = wx.StaticText(
+        delete_files_with_names_containing_text = wx.StaticText(
             main_panel,
             label="Delete files based on their name containing"
         )
 
-        self.delete_files_with_names_containing_button = wx.Button(main_panel, label="List")
-        self.delete_files_with_names_containing_button.Bind(
+        delete_files_with_names_containing_button = wx.Button(main_panel, label="List")
+        delete_files_with_names_containing_button.Bind(
             wx.EVT_BUTTON,
-            lambda: self.open_delete_files_with_names_containing_list()
+            lambda _: self.open_delete_files_with_names_containing_list()
         )
 
         self.delete_duplicates_checkbox = wx.CheckBox(main_panel, label="Delete duplicates")
@@ -84,8 +85,8 @@ class MainFrame(wx.Frame):
         self.delete_broken_links_checkbox = wx.CheckBox(main_panel, label="Delete broken links")
         self.delete_broken_links_checkbox.SetValue(self.config.get("delete_broken_links_bool"))
 
-        self.start_button = wx.Button(main_panel, label="Start")
-        self.start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
+        start_button = wx.Button(main_panel, label="Start")
+        start_button.Bind(wx.EVT_BUTTON, lambda _: self.start_scanning())
 
         self.switch_startup_button = wx.Button(
             main_panel,
@@ -118,25 +119,23 @@ class MainFrame(wx.Frame):
 
         file_sizer.Add(self.delete_based_on_file_type_radiobox, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(5)
-        file_sizer.Add(self.delete_based_on_file_type_list_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.Add(delete_based_on_file_type_list_button, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(20)
-        file_sizer.Add(self.delete_files_with_names_containing_text, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.Add(delete_files_with_names_containing_text, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(5)
-        file_sizer.Add(self.delete_files_with_names_containing_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        file_sizer.Add(delete_files_with_names_containing_button, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(20)
         file_sizer.Add(self.delete_duplicates_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
         file_sizer.AddSpacer(20)
         file_sizer.Add(self.delete_broken_links_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
 
-        buttons_sizer.Add(self.start_button, 0, wx.ALL | wx.ALIGN_CENTER)
-        """
-        Hide the switch_startup_button because the functionality currently does not work
-        This is because the program needs admin privileges
-        which can not be given to programs during startup
-
-        buttons_sizer.AddSpacer(10)
-        buttons_sizer.Add(self.switch_startup_button, 0, wx.ALL | wx.ALIGN_CENTER)
-        """
+        buttons_sizer.Add(start_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        # Hide the switch_startup_button because the functionality currently does not work
+        # This is because the program needs admin privileges
+        # which can not be given to programs during startup
+        #
+        # buttons_sizer.AddSpacer(10)
+        # buttons_sizer.Add(self.switch_startup_button, 0, wx.ALL | wx.ALIGN_CENTER)
 
         main_panel.SetSizer(main_sizer)
 

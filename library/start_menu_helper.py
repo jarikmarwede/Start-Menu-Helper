@@ -1,3 +1,4 @@
+"""Reorganize the start menu folder."""
 import logging
 import pathlib
 import re
@@ -10,7 +11,7 @@ from library.helpers.stopable_thread import StoppableThread
 
 
 class StartMenuHelper:
-
+    """Starts and stops cleaning."""
     def __init__(self):
         self._config: configuration.Configuration = configuration.Configuration()
         self._cleaner_thread: StoppableThread = StoppableThread()
@@ -196,15 +197,15 @@ def delete_links_to_folders():
 
 def get_nested_directories(directory: pathlib.Path) -> List[pathlib.Path]:
     """Return all directories inside directory and its child directories."""
-    directories = []
+    nested_directories = []
     for item in directory.iterdir():
         if item.is_dir():
-            directories.append(item)
-    for directory in directories:
-        for item in directory.iterdir():
+            nested_directories.append(item)
+    for nested_directory in nested_directories:
+        for item in nested_directory.iterdir():
             if item.is_dir():
-                directories.append(item)
-    return directories
+                nested_directories.append(item)
+    return nested_directories
 
 
 def get_nested_files(directory: pathlib.Path) -> List[pathlib.Path]:

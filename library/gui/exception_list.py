@@ -1,3 +1,4 @@
+"""Edit the exceptions for different cleaning functions."""
 import os
 
 import wx
@@ -5,7 +6,7 @@ import wx.adv
 
 
 class ExceptionList(wx.Dialog):
-
+    """A list widget that allows users to edit the exception files."""
     def __init__(self, parent, title, file):
         super().__init__(parent=parent, title=title)
 

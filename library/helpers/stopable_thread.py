@@ -1,3 +1,4 @@
+"""A thread that is stoppable."""
 import threading
 
 

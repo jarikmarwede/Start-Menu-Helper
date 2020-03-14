@@ -26,8 +26,8 @@ jobs:
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
     - name: Lint with pylint
       run: |
+        pylint ./library --disable=W1202 --exit-zero
         pylint ./library --errors-only
-        pylint ./library --exit-zero
     - name: Type checking with mypy
       run: mypy --ignore-missing-imports main.py
     - name: Lint with bandit

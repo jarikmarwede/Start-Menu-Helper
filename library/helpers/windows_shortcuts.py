@@ -1,3 +1,4 @@
+"""Work with windows shortcuts."""
 import pathlib
 from typing import Optional
 

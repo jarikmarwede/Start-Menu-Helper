@@ -1,3 +1,4 @@
+"""Loads, edits and saves the configuration."""
 import configparser
 from typing import Optional, Union
 
@@ -5,7 +6,7 @@ from library import constants
 
 
 class Configuration:
-
+    """Interact with the configuration file."""
     def __init__(self):
         self._config: configparser.ConfigParser = configparser.ConfigParser()
 
@@ -56,12 +57,11 @@ class Configuration:
         """Get a value from the configuration in its correct type."""
         if key.endswith("_bool"):
             return self._config["options"].getboolean(key)
-        elif key.endswith("_int"):
+        if key.endswith("_int"):
             return self._config["options"].getint(key)
-        elif key.endswith("_float"):
+        if key.endswith("_float"):
             return self._config["options"].getfloat(key)
-        else:
-            return self._config["options"][key]
+        return self._config["options"][key]
 
     def set(self, key: str, value: Union[bool, int, float, str]):
         """Set a value in the configuration."""

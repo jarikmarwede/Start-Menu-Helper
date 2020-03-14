@@ -1,3 +1,4 @@
+"""Windows task bar icon."""
 import wx
 import wx.adv
 
@@ -6,7 +7,7 @@ from library.helpers import pyinstaller_asset
 
 
 class TaskBarIcon(wx.adv.TaskBarIcon):
-
+    """Icon that appears in the windows taskbar when cleaning in background."""
     def __init__(self, open_callback):
         super().__init__()
 
@@ -22,8 +23,9 @@ class TaskBarIcon(wx.adv.TaskBarIcon):
 
         self.Bind(wx.adv.EVT_TASKBAR_LEFT_UP, lambda _: open_callback())
 
-    # Overwrites wx.adv.TaskBarIcon.CreatePopupMenu to set self._task_bar_menu as standard menu
-    def CreatePopupMenu(self):
+    def CreatePopupMenu(self):  # pylint: disable=C0103
+        """Overwrites wx.adv.TaskBarIcon.CreatePopupMenu
+        to set self._task_bar_menu as standard menu."""
         return self._task_bar_menu
 
     def _on_menu_select(self, event):
