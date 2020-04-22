@@ -51,10 +51,14 @@ If you want the program to automatically start cleaning in the background when y
 
 ### :gear: Options
 #### Folders
-##### Flatten folders:
-This option specifies whether folders within the start menu should be deleted and their files moved to the normal start menu folder. You can specify folders that should not be flattened by clicking on the "Exceptions" button and entering their names.
+##### Flatten folders whose names:
+This option specifies whether folders within the start menu should be deleted and their files moved to the normal start menu folder if they match a word in the list or if they don't match any of the words in the list. You can edit the list by clicking on the "List" button. If you don't want to flatten any folders set the option to "contain one of the words in the list" and leave the list empty.
 
-Options: All, Only ones with one item in them, None
+Options: contain one of the words in the list, do not contain any of the words in the list
+##### Flatten folders only containing one item
+This option specifies whether folders with only one item in them should be flattened. You can specify folders that should not be flattened even if they only contain one item by clicking on the "Exception" button.
+
+Options: On, Off
 ##### Delete empty folders:
 This option specifies whether to delete folders that do not contain any files or other folders.
 
