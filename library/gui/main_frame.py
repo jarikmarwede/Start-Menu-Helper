@@ -28,21 +28,40 @@ class MainFrame(wx.Frame):
         # Widgets
         main_panel = wx.Panel(self)
 
-        self.flatten_folder_radiobox = wx.RadioBox(main_panel, label="Flatten folders",
-                                                   choices=["All",
-                                                            "Only ones with one item in them",
-                                                            "None"])
-        self.flatten_folder_radiobox.Bind(wx.EVT_RADIOBOX, self.on_flatten_folder_radiobox)
-        self.flatten_folder_radiobox.SetStringSelection(
-            self.config.get("flatten_folders_str"))
-
-        self.flatten_folder_exceptions_button = wx.Button(main_panel, label="Exceptions")
-        self.flatten_folder_exceptions_button.Bind(
-            wx.EVT_BUTTON,
-            lambda _: self.open_flatten_folders_exception_list()
+        self.flatten_folder_radiobox = wx.RadioBox(
+            main_panel,
+            label="Flatten folders whose names",
+            choices=[
+                "contain one of the words in the list",
+                "do not contain any of the words in the list"
+            ]
         )
-        if self.config.get("flatten_folders_str") == "None":
-            self.flatten_folder_exceptions_button.Disable()
+        if self.config.get("flatten_folders_list_type_str") == "whitelist":
+            self.flatten_folder_radiobox.SetStringSelection("contain one of the words in the list")
+        else:
+            self.flatten_folder_radiobox.SetStringSelection(
+                "do not contain any of the words in the list")
+
+        self.flatten_folder_list_button = wx.Button(main_panel, label="List")
+        self.flatten_folder_list_button.Bind(
+            wx.EVT_BUTTON,
+            lambda _: self.open_flatten_folders_list()
+        )
+
+        self.flatten_folder_containing_only_one_item_checkbox = wx.CheckBox(
+            main_panel,
+            label="Flatten folders only containing one item"
+        )
+        self.flatten_folder_containing_only_one_item_checkbox.SetValue(
+            self.config.get("flatten_folders_containing_only_one_item_bool")
+        )
+
+        self.flatten_folder_containing_only_one_item_exceptions_button = wx.Button(main_panel,
+                                                                                   label="Exceptions")
+        self.flatten_folder_containing_only_one_item_exceptions_button.Bind(
+            wx.EVT_BUTTON,
+            lambda _: self.open_flatten_folders_containing_only_one_item_exception_list()
+        )
 
         self.delete_empty_folders_checkbox = wx.CheckBox(main_panel, label="Delete empty folders")
         self.delete_empty_folders_checkbox.SetValue(
@@ -111,7 +130,13 @@ class MainFrame(wx.Frame):
 
         folder_sizer.Add(self.flatten_folder_radiobox, 0, wx.ALL | wx.ALIGN_CENTER)
         folder_sizer.AddSpacer(5)
-        folder_sizer.Add(self.flatten_folder_exceptions_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        folder_sizer.Add(self.flatten_folder_list_button, 0, wx.ALL | wx.ALIGN_CENTER)
+        folder_sizer.AddSpacer(20)
+        folder_sizer.Add(self.flatten_folder_containing_only_one_item_checkbox, 0,
+                         wx.ALL | wx.ALIGN_CENTER)
+        folder_sizer.AddSpacer(5)
+        folder_sizer.Add(self.flatten_folder_containing_only_one_item_exceptions_button, 0,
+                         wx.ALL | wx.ALIGN_CENTER)
         folder_sizer.AddSpacer(20)
         folder_sizer.Add(self.delete_empty_folders_checkbox, 0, wx.ALL | wx.ALIGN_CENTER)
         folder_sizer.AddSpacer(20)
@@ -142,17 +167,22 @@ class MainFrame(wx.Frame):
         self.SetSizerAndFit(frame_sizer)
         self.Center()
 
-    def on_flatten_folder_radiobox(self, event):
-        """Enable/disable exceptions button for flatten folder setting based on selection."""
-        if event.GetString() == "None":
-            self.flatten_folder_exceptions_button.Disable()
-        else:
-            self.flatten_folder_exceptions_button.Enable()
+    def open_flatten_folders_list(self):
+        """Open the whitelist or blacklist for the flatten folders option."""
+        list_window = ExceptionList(
+            self,
+            title="Flatten folders list",
+            file=constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH
+        )
+        list_window.ShowModal()
 
-    def open_flatten_folders_exception_list(self):
-        """Open the list that manages exceptions to the flatten folders option."""
-        exceptions_list = ExceptionList(self, title="Flatten folders exceptions",
-                                        file=constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH)
+    def open_flatten_folders_containing_only_one_item_exception_list(self):
+        """Open the exceptions list for the flatten folders containing only one item option."""
+        exceptions_list = ExceptionList(
+            self,
+            title="Flatten folders containing only one item exceptions",
+            file=constants.FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH
+        )
         exceptions_list.ShowModal()
 
     def open_delete_based_on_file_type_list(self):
@@ -171,8 +201,14 @@ class MainFrame(wx.Frame):
 
     def save_config(self):
         """Saves the current configuration."""
-        self.config.set("flatten_folders_str",
-                        self.flatten_folder_radiobox.GetStringSelection())
+        if self.flatten_folder_radiobox.GetStringSelection() == "contain one of the words in the list":
+            self.config.set("flatten_folders_list_type_str", "whitelist")
+        else:
+            self.config.set("flatten_folders_list_type_str", "blacklist")
+        self.config.set(
+            "flatten_folders_containing_only_one_item_bool",
+            self.flatten_folder_containing_only_one_item_checkbox.IsChecked()
+        )
         self.config.set("delete_empty_folders_bool",
                         self.delete_empty_folders_checkbox.IsChecked())
         self.config.set("delete_links_to_folders_bool",
