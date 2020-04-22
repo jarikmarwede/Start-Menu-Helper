@@ -2,7 +2,7 @@
 import pathlib
 
 PROGRAM_NAME = "Start Menu Helper"
-VERSION_NUMBER = "1.0.3"
+VERSION_NUMBER = "1.1.0"
 ICON_FILE_NAME = "icon.ico"
 TIME_BETWEEN_SCANS_IN_MINUTES = 5
 APP_DATA_PATH = pathlib.Path.home().joinpath("AppData")
@@ -24,7 +24,11 @@ START_MENU_PROGRAMS_PATHS = [
 PROTECTED_FOLDERS = [
     "StartUp",
     "Startup",
-    "Administrative Tools"
+    "Accessibility",
+    "Accessories",
+    "Administrative Tools",
+    "System Tools",
+    "Windows PowerShell"
 ]
 FLATTEN_FOLDERS_EXCEPTIONS_PATH = CONFIGURATION_PATH.joinpath("flatten_folders_exceptions.txt")
 FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH = CONFIGURATION_PATH.joinpath(
