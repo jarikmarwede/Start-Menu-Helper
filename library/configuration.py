@@ -12,7 +12,7 @@ class Configuration:
 
         self.reload()
 
-        if not self._config.sections():
+        if self.empty:
             self._create_new_config()
         elif self._config["app_info"]["version"] != constants.VERSION_NUMBER:
             self._migrate_config()
@@ -23,7 +23,8 @@ class Configuration:
             "version": constants.VERSION_NUMBER
         }
         self._config["options"] = {
-            "flatten_folders_str": "None",
+            "flatten_folders_containing_only_one_item_bool": "True",
+            "flatten_folders_list_type_str": "blacklist",
             "delete_empty_folders_bool": "False",
             "delete_links_to_folders_bool": "False",
             "delete_duplicates_bool": "False",
@@ -66,3 +67,7 @@ class Configuration:
     def set(self, key: str, value: Union[bool, int, float, str]):
         """Set a value in the configuration."""
         self._config["options"][key] = str(value)
+
+    @property
+    def empty(self):
+        return self._config.sections() == []

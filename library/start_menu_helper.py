@@ -42,13 +42,20 @@ class StartMenuHelper:
                     self._config.get("delete_files_based_on_file_type_str") == "in the list",
                 delete_files_not_matching_file_types:
                     self._config.get("delete_files_based_on_file_type_str") == "not in the list",
-                delete_broken_links: self._config.get("delete_broken_links_bool"),
-                delete_links_to_folders: self._config.get("delete_links_to_folders_bool"),
-                delete_duplicates: self._config.get("delete_duplicates_bool"),
-                flatten_all_folders: self._config.get("flatten_folders_str") == "All",
+                delete_broken_links:
+                    self._config.get("delete_broken_links_bool"),
+                delete_links_to_folders:
+                    self._config.get("delete_links_to_folders_bool"),
+                delete_duplicates:
+                    self._config.get("delete_duplicates_bool"),
+                flatten_folders_with_whitelist:
+                    self._config.get("flatten_folders_list_type_str") == "whitelist",
+                flatten_folders_with_blacklist:
+                    self._config.get("flatten_folders_list_type_str") == "blacklist",
                 flatten_folders_containing_one_file:
-                    self._config.get("flatten_folders_str") == "Only ones with one item in them",
-                delete_empty_folders: self._config.get("delete_empty_folders_bool")
+                    self._config.get("flatten_folders_containing_only_one_item_bool"),
+                delete_empty_folders:
+                    self._config.get("delete_empty_folders_bool")
             }
 
             for function, turned_on in cleaning_functions.items():
@@ -82,25 +89,25 @@ def delete_duplicates():
 
 
 def flatten_folders_containing_one_file():
-    """Flatten folders that are only containing one file."""
-    whitelist = []
-    if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
-        with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
-            whitelist = file.read().splitlines()
+    """Flatten folders that only contain one file."""
+    blacklist = []
+    if constants.FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH.exists():
+        with open(constants.FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH) as file:
+            blacklist = file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
             if (directory.exists() and
                     len(list(directory.iterdir())) <= 1 and
-                    directory.name not in whitelist and
+                    directory.name not in blacklist and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(item.parents[1].joinpath(item.name))
                 logging.info(f"Flattened folder: {directory.name}")
 
 
-def flatten_all_folders():
-    """Flatten all folders."""
+def flatten_folders_with_whitelist():
+    """Flatten folders while respecting exceptions as a whitelist."""
     whitelist = []
     if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
         with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
@@ -109,6 +116,22 @@ def flatten_all_folders():
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
             if (directory.name not in whitelist and
+                    directory.name not in constants.PROTECTED_FOLDERS):
+                for item in directory.iterdir():
+                    item.replace(path.joinpath(item.name))
+                logging.info(f"Flattened folder: {directory.name}")
+
+
+def flatten_folders_with_blacklist():
+    """Flatten folders while respecting exceptions as a blacklist."""
+    blacklist = []
+    if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
+        with open(constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH) as file:
+            blacklist = file.read().splitlines()
+
+    for path in constants.START_MENU_PROGRAMS_PATHS:
+        for directory in get_nested_directories(path):
+            if (directory.name in blacklist and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(path.joinpath(item.name))

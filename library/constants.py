@@ -27,6 +27,9 @@ PROTECTED_FOLDERS = [
     "Administrative Tools"
 ]
 FLATTEN_FOLDERS_EXCEPTIONS_PATH = CONFIGURATION_PATH.joinpath("flatten_folders_exceptions.txt")
+FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH = CONFIGURATION_PATH.joinpath(
+    "flatten_folders_with_one_item_exceptions.txt"
+)
 DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH = CONFIGURATION_PATH.joinpath(
     "delete_files_with_names_containing.txt"
 )
