@@ -52,12 +52,18 @@ class MainFrame(wx.Frame):
             main_panel,
             label="Flatten folders only containing one item"
         )
+        self.flatten_folder_containing_only_one_item_checkbox.Bind(
+            wx.EVT_CHECKBOX,
+            self.on_flatten_folder_containing_only_one_item_checkbox
+        )
         self.flatten_folder_containing_only_one_item_checkbox.SetValue(
             self.config.get("flatten_folders_containing_only_one_item_bool")
         )
 
-        self.flatten_folder_containing_only_one_item_exceptions_button = wx.Button(main_panel,
-                                                                                   label="Exceptions")
+        self.flatten_folder_containing_only_one_item_exceptions_button = wx.Button(
+            main_panel,
+            label="Exceptions"
+        )
         self.flatten_folder_containing_only_one_item_exceptions_button.Bind(
             wx.EVT_BUTTON,
             lambda _: self.open_flatten_folders_containing_only_one_item_exception_list()
@@ -167,6 +173,13 @@ class MainFrame(wx.Frame):
         self.SetSizerAndFit(frame_sizer)
         self.Center()
 
+    def on_flatten_folder_containing_only_one_item_checkbox(self, event):
+        """Enable/disable exceptions button for flatten folder containing only one item setting."""
+        if event.IsChecked():
+            self.flatten_folder_containing_only_one_item_exceptions_button.Enable()
+        else:
+            self.flatten_folder_containing_only_one_item_exceptions_button.Disable()
+
     def open_flatten_folders_list(self):
         """Open the whitelist or blacklist for the flatten folders option."""
         list_window = ExceptionList(
@@ -201,7 +214,8 @@ class MainFrame(wx.Frame):
 
     def save_config(self):
         """Saves the current configuration."""
-        if self.flatten_folder_radiobox.GetStringSelection() == "contain one of the words in the list":
+        if (self.flatten_folder_radiobox.GetStringSelection()
+                == "contain one of the words in the list"):
             self.config.set("flatten_folders_list_type_str", "whitelist")
         else:
             self.config.set("flatten_folders_list_type_str", "blacklist")
