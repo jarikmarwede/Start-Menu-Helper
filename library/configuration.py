@@ -23,8 +23,8 @@ class Configuration:
             "version": constants.VERSION_NUMBER
         }
         self._config["options"] = {
-            "flatten_folders_containing_only_one_item_bool": "True",
-            "flatten_folders_list_type_str": "blacklist",
+            "flatten_folders_containing_only_one_item_bool": "False",
+            "flatten_folders_list_type_str": "whitelist",
             "delete_empty_folders_bool": "False",
             "delete_links_to_folders_bool": "False",
             "delete_duplicates_bool": "False",

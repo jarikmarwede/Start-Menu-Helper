@@ -115,7 +115,7 @@ def flatten_folders_with_whitelist():
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
-            if (directory.name not in whitelist and
+            if (directory.name in whitelist and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(path.joinpath(item.name))
@@ -131,7 +131,7 @@ def flatten_folders_with_blacklist():
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
-            if (directory.name in blacklist and
+            if (directory.name not in blacklist and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(path.joinpath(item.name))
