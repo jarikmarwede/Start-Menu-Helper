@@ -1,4 +1,6 @@
 # Start Menu Helper
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjarikmarwede%2FStart-Menu-Helper.svg?type=shield)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjarikmarwede%2FStart-Menu-Helper?ref=badge_shield)
+
 A tool to clean up your Windows Start Menu
 
 ## Table of contents
@@ -106,3 +108,7 @@ Alternatively if you do not want to install it to "C:\Program Files (x86)":
 1. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
 2. Open ".\scripts\setup_script.iss" in Inno Setup
 3. Click "Compile"
+
+
+## License
+[![FOSSA Status](https://app.fossa.com/api/projects/git%2Bgithub.com%2Fjarikmarwede%2FStart-Menu-Helper.svg?type=large)](https://app.fossa.com/projects/git%2Bgithub.com%2Fjarikmarwede%2FStart-Menu-Helper?ref=badge_large)
