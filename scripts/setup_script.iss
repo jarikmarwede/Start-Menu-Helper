@@ -5,7 +5,7 @@
 #define MyAppURL "https://github.com/jarikmarwede/Start-Menu-Helper"
 #define MyAppExeName "Start Menu Helper.exe"
 #define MySetupName "Start_Menu_Helper_Setup"
-#define MyAppLicenseName "LICENSE
+#define MyAppLicenseName "LICENSE"
 #define MyAppIconName "icon.ico"
 
 [Setup]
