@@ -83,7 +83,7 @@ def delete_duplicates():
         for file in files:
             if file.name in found_files:
                 file.unlink()
-                logging.info(f"Deleted duplicate: {file.name}")
+                logging.info(f"Deleted duplicate: {str(file)}")
             else:
                 found_files.append(file.name)
 
