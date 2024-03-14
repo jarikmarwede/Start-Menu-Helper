@@ -12,7 +12,7 @@ from library.helpers.stopable_thread import StoppableThread
 
 class StartMenuHelper:
     """Starts and stops cleaning."""
-    def __init__(self):
+    def __init__(self) -> None:
         self._config: configuration.Configuration = configuration.Configuration()
         self._cleaner_thread: StoppableThread = StoppableThread()
 
