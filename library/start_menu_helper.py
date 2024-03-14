@@ -103,7 +103,7 @@ def flatten_folders_containing_one_file():
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(item.parents[1].joinpath(item.name))
-                logging.info(f"Flattened folder: {directory.name}")
+                logging.info(f"Flattened folder: {str(directory)}")
 
 
 def flatten_folders_with_whitelist():
@@ -119,7 +119,7 @@ def flatten_folders_with_whitelist():
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(path.joinpath(item.name))
-                logging.info(f"Flattened folder: {directory.name}")
+                logging.info(f"Flattened folder: {str(directory)}")
 
 
 def flatten_folders_with_blacklist():
@@ -135,7 +135,7 @@ def flatten_folders_with_blacklist():
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
                     item.replace(path.joinpath(item.name))
-                logging.info(f"Flattened folder: {directory.name}")
+                logging.info(f"Flattened folder: {str(directory)}")
 
 
 def delete_empty_folders():
@@ -145,16 +145,16 @@ def delete_empty_folders():
             if (len(list(directory.iterdir())) == 0 and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 directory.rmdir()
-                logging.info(f"Deleted empty folder: {directory.name}")
+                logging.info(f"Deleted empty folder: {str(directory)}")
 
 
 def delete_broken_links():
-    """Delete links that point to a non existing file."""
+    """Delete links that point to a non-existing file."""
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for link in get_nested_links(path):
             if not link.exists() or not windows_shortcuts.read_shortcut(link).exists():
                 link.unlink()
-                logging.info(f"Deleted broken link: {link.name}")
+                logging.info(f"Deleted broken link: {str(link)}")
 
 
 def delete_files_with_names_containing():
@@ -170,7 +170,8 @@ def delete_files_with_names_containing():
                 if re.search(re.escape(match_string), file.name, flags=re.IGNORECASE):
                     file.unlink()
                     logging.info(
-                        f"Deleted file \"{file.name}\" because it contained \"{match_string}\"")
+                        f"Deleted file \"{str(file)}\" because the file name contained \"{match_string}\""
+                    )
 
 
 def delete_files_matching_file_types():
@@ -187,7 +188,7 @@ def delete_files_matching_file_types():
                 if resolved_file.name.endswith(file_type) and resolved_file.is_file():
                     file.unlink()
                     logging.info(
-                        f"Deleted file \"{file.name}\" because it had the extension \"{file_type}\""
+                        f"Deleted file \"{str(file)}\" because it had the extension \"{file_type}\""
                     )
 
 
@@ -204,7 +205,7 @@ def delete_files_not_matching_file_types():
                 if not file.name.endswith(file_type) and file.is_file():
                     file.unlink()
                     logging.info(
-                        f"Deleted file \"{file.name}\" because it did not have any of "
+                        f"Deleted file \"{str(file)}\" because it did not have any of "
                         "the required extensions"
                     )
 
@@ -215,10 +216,10 @@ def delete_links_to_folders():
         for link in get_nested_links(path):
             if windows_shortcuts.read_shortcut(link).is_dir():
                 link.unlink()
-                logging.info(f"Deleted link to folder: {link.name}")
+                logging.info(f"Deleted link to folder: {str(link)}")
 
 
-def get_nested_directories(directory: pathlib.Path) -> List[pathlib.Path]:
+def get_nested_directories(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
     """Return all directories inside directory and its child directories."""
     nested_directories = []
     for item in directory.iterdir():
@@ -231,7 +232,7 @@ def get_nested_directories(directory: pathlib.Path) -> List[pathlib.Path]:
     return nested_directories
 
 
-def get_nested_files(directory: pathlib.Path) -> List[pathlib.Path]:
+def get_nested_files(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
     """Return all files inside directory and its child directories."""
     files = [item for item in directory.iterdir() if item.is_file()]
 
@@ -242,7 +243,7 @@ def get_nested_files(directory: pathlib.Path) -> List[pathlib.Path]:
     return files
 
 
-def get_nested_links(directory: pathlib.Path) -> List[pathlib.Path]:
+def get_nested_links(directory: pathlib.WindowsPath) -> List[pathlib.WindowsPath]:
     """Return all links inside directory and its child directories."""
     links = [item for item in directory.iterdir() if
              item.is_symlink() or windows_shortcuts.is_shortcut(item)]
@@ -254,7 +255,7 @@ def get_nested_links(directory: pathlib.Path) -> List[pathlib.Path]:
     return links
 
 
-def resolve_files(files: List[pathlib.Path]) -> List[pathlib.Path]:
+def resolve_files(files: List[pathlib.WindowsPath]) -> List[pathlib.WindowsPath]:
     """Resolve multiple files."""
     resolved_files = []
     for file in files:
