@@ -7,7 +7,7 @@ from library import constants
 
 class Configuration:
     """Interact with the configuration file."""
-    def __init__(self):
+    def __init__(self) -> None:
         self._config: configparser.ConfigParser = configparser.ConfigParser()
 
         self.reload()

@@ -6,20 +6,20 @@ import pythoncom
 import win32com.client
 
 
-def is_shortcut(file: pathlib.Path) -> bool:
+def is_shortcut(file: pathlib.WindowsPath) -> bool:
     """Determines whether a file is a windows shortcut."""
     return file.name.endswith(".lnk")
 
 
-def read_shortcut(link: pathlib.Path) -> pathlib.Path:
+def read_shortcut(link: pathlib.WindowsPath) -> pathlib.WindowsPath:
     """Read the destination of a windows shortcut file."""
     pythoncom.CoInitialize()  # pylint: disable=E1101
     shell = win32com.client.Dispatch("WScript.Shell")
     shortcut = shell.CreateShortCut(str(link))
-    return pathlib.Path(shortcut.Targetpath)
+    return pathlib.WindowsPath(shortcut.Targetpath)
 
 
-def create_shortcut(link_path: pathlib.Path, item_to_link_to: pathlib.Path,
+def create_shortcut(link_path: pathlib.WindowsPath, item_to_link_to: pathlib.WindowsPath,
                     arguments: Optional[str] = ""):
     """Create a windows shortcut file."""
     shell = win32com.client.Dispatch('WScript.Shell')
