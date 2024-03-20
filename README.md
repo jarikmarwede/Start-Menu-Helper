@@ -94,7 +94,7 @@ To set the program up for development on your computer:
 
 ### Generate executable
 To just generate the executable for the program:
-1. Install [PyInstaller](https://www.pyinstaller.org/index.html) using `pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz`
+1. Install [PyInstaller](https://www.pyinstaller.org) using `pip install https://github.com/pyinstaller/pyinstaller/archive/develop.tar.gz`
 2. Run `.\scripts\generate_executable.cmd`
 
 ### Generate setup
