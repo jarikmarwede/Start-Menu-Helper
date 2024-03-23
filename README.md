@@ -7,8 +7,8 @@ A tool to clean up your Windows Start Menu
 * [How to use](#how-to-use)
   * [Warning](#exclamation-warning)
   * [Backup](#floppy_disk-backup)
-  * [Cleaning](#cleaning)
-  * [Run on startup](#run-on-startup)
+  * [Cleaning](#broom-cleaning)
+  * [Run on startup](#rocket-run-on-startup)
   * [Options](#gear-options)
 * [Development](#wrench-development)
   * [Setup](#setup)
@@ -32,10 +32,10 @@ To backup your Start menu you just have to copy two folders to a save place on y
 
 If something goes wrong with your start menu you can copy your backup into these folders again.
 
-### Cleaning
+### :broom: Cleaning
 Once you have configured all of the [options](#gear-options) you can start the cleaning by pressing the "Start" button. Once you have clicked it the cleaning begins and the program will continually clean the start menu every few minutes. You can reopen the options window by clicking on the icon of the program in the windows taskbar. If you want to close it you can also right-click on it to open a menu where you can select "Close".
 
-### Run on startup
+### :rocket: Run on startup
 If you want the program to automatically start cleaning in the background when you start your computer follow these steps:
 1. Open the "Task Scheduler" program by Microsoft
 2. Click on "Action" in the top menu
