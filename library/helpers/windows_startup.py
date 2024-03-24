@@ -8,14 +8,14 @@ _STARTUP_PATH = pathlib.WindowsPath(constants.STARTUP_PATH)
 _EXECUTABLE_PATH = pathlib.WindowsPath(constants.EXECUTABLE_PATH)
 
 
-def add():
+def add() -> None:
     """Add the program to windows startup."""
     windows_shortcuts.create_shortcut(_STARTUP_PATH.joinpath(constants.PROGRAM_NAME + ".lnk"),
                                       _EXECUTABLE_PATH,
                                       arguments="-b")
 
 
-def remove():
+def remove() -> None:
     """Remove the program from windows startup."""
     _STARTUP_PATH.joinpath(constants.PROGRAM_NAME + ".lnk").unlink()
 

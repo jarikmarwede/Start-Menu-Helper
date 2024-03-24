@@ -16,18 +16,18 @@ class StartMenuHelper:
         self._config: configuration.Configuration = configuration.Configuration()
         self._cleaner_thread: StoppableThread = StoppableThread()
 
-    def start_cleaning(self):
+    def start_cleaning(self) -> None:
         """Starts the cleaning based on the configuration."""
         self._cleaner_thread = StoppableThread(target=self._clean, daemon=True)
         self._cleaner_thread.start()
         logging.debug("Cleaning started")
 
-    def stop_cleaning(self):
+    def stop_cleaning(self) -> None:
         """Stops the cleaning."""
         self._cleaner_thread.stop()
         self._cleaner_thread.join()
 
-    def _clean(self):
+    def _clean(self) -> None:
         """Cleans based on configuration.
 
         This method is supposed to be run by the _cleaner_thread.
@@ -67,7 +67,7 @@ class StartMenuHelper:
                     time.sleep(0.001)
 
 
-def move_files_to_programs_directory():
+def move_files_to_programs_directory() -> None:
     """Move all files to the programs directory."""
     for path in constants.START_MENU_PATHS:
         for item in path.iterdir():
@@ -75,7 +75,7 @@ def move_files_to_programs_directory():
                 item.replace(path.joinpath("Programs").joinpath(item.name))
 
 
-def delete_duplicates():
+def delete_duplicates() -> None:
     """Delete duplicates of files."""
     found_files = []
     for path in constants.START_MENU_PROGRAMS_PATHS:
@@ -88,7 +88,7 @@ def delete_duplicates():
                 found_files.append(file.name)
 
 
-def flatten_folders_containing_one_file():
+def flatten_folders_containing_one_file() -> None:
     """Flatten folders that only contain one file."""
     blacklist = []
     if constants.FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH.exists():
@@ -106,7 +106,7 @@ def flatten_folders_containing_one_file():
                 logging.info(f"Flattened folder: {str(directory)}")
 
 
-def flatten_folders_with_whitelist():
+def flatten_folders_with_whitelist() -> None:
     """Flatten folders while respecting exceptions as a whitelist."""
     whitelist = []
     if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
@@ -122,7 +122,7 @@ def flatten_folders_with_whitelist():
                 logging.info(f"Flattened folder: {str(directory)}")
 
 
-def flatten_folders_with_blacklist():
+def flatten_folders_with_blacklist() -> None:
     """Flatten folders while respecting exceptions as a blacklist."""
     blacklist = []
     if constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH.exists():
@@ -138,7 +138,7 @@ def flatten_folders_with_blacklist():
                 logging.info(f"Flattened folder: {str(directory)}")
 
 
-def delete_empty_folders():
+def delete_empty_folders() -> None:
     """Delete empty folders."""
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for directory in get_nested_directories(path):
@@ -148,7 +148,7 @@ def delete_empty_folders():
                 logging.info(f"Deleted empty folder: {str(directory)}")
 
 
-def delete_broken_links():
+def delete_broken_links() -> None:
     """Delete links that point to a non-existing file."""
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for link in get_nested_links(path):
@@ -157,12 +157,12 @@ def delete_broken_links():
                 logging.info(f"Deleted broken link: {str(link)}")
 
 
-def delete_files_with_names_containing():
+def delete_files_with_names_containing() -> None:
     """Deletes files whose names contain the strings from the list."""
     match_strings = []
     if constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH.exists():
-        with open(constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH) as file:
-            match_strings = file.read().splitlines()
+        with open(constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH) as list_file:
+            match_strings = list_file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for file in get_nested_files(path):
@@ -174,12 +174,12 @@ def delete_files_with_names_containing():
                     )
 
 
-def delete_files_matching_file_types():
+def delete_files_matching_file_types() -> None:
     """Delete files that match the file types."""
     file_types = []
     if constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH.exists():
-        with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as file:
-            file_types = file.read().splitlines()
+        with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as list_file:
+            file_types = list_file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for file_type in file_types:
@@ -192,12 +192,12 @@ def delete_files_matching_file_types():
                     )
 
 
-def delete_files_not_matching_file_types():
+def delete_files_not_matching_file_types() -> None:
     """Delete files that do not match the file types."""
     file_types = []
     if constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH.exists():
-        with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as file:
-            file_types = file.read().splitlines()
+        with open(constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH) as list_file:
+            file_types = list_file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for file_type in file_types:
@@ -210,7 +210,7 @@ def delete_files_not_matching_file_types():
                     )
 
 
-def delete_links_to_folders():
+def delete_links_to_folders() -> None:
     """Delete links that link to folders."""
     for path in constants.START_MENU_PROGRAMS_PATHS:
         for link in get_nested_links(path):
