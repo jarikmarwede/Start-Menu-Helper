@@ -1,2 +1,2 @@
 ﻿wxPython==4.2.0
-pywin32==304
+pywin32==306
