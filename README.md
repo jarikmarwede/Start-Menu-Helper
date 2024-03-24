@@ -89,7 +89,7 @@ Options: On, Off
 ### Setup
 To set the program up for development on your computer:
 1. Clone this program to your computer using `git clone https://github.com/jarikmarwede/Start-Menu-Helper.git`
-2. Set up a virtual environment or make sure you have [Python](https://www.python.org/downloads/windows/) version 3.7.3+ installed
+2. Set up a virtual environment or make sure you have [Python](https://www.python.org/downloads/windows/) version 3.8.0+ installed
 3. Install the required libraries using `pip install -r requirements.txt`
 
 ### Generate executable
