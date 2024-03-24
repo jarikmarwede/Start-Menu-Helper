@@ -21,7 +21,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         pip install flake8 flake8-eradicate pylint mypy bandit
-        mypy --install-types --non-interactive
     - name: Lint with flake8
       run: |
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
@@ -33,6 +32,6 @@ jobs:
         pylint ./library --disable=E,W1202 --exit-zero
         pylint ./library --extension-pkg-whitelist=wx --errors-only
     - name: Type checking with mypy
-      run: mypy --ignore-missing-imports --disallow-untyped-defs main.py
+      run: mypy --install-types --non-interactive --ignore-missing-imports --disallow-untyped-defs main.py
     - name: Lint with bandit
       run: bandit -r .
