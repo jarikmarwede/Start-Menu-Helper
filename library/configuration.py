@@ -17,7 +17,7 @@ class Configuration:
         elif self._config["app_info"]["version"] != constants.VERSION_NUMBER:
             self._migrate_config()
 
-    def _create_new_config(self, options: Optional[dict] = None):
+    def _create_new_config(self, options: Optional[dict] = None) -> None:
         """Create a new configuration file."""
         self._config["app_info"] = {
             "version": constants.VERSION_NUMBER
@@ -38,16 +38,16 @@ class Configuration:
 
         self.save()
 
-    def _migrate_config(self):
+    def _migrate_config(self) -> None:
         """Migrates the configuration of an old version to a new configuration file."""
         old_options = dict(self._config["options"])
         self._create_new_config(old_options)
 
-    def reload(self):
+    def reload(self) -> None:
         """Reload the configuration from the configuration file."""
         self._config.read(constants.CONFIGURATION_FILE_PATH)
 
-    def save(self):
+    def save(self) -> None:
         """Save the configuration to the configuration file."""
         if not constants.CONFIGURATION_PATH.exists():
             constants.CONFIGURATION_PATH.mkdir()
@@ -64,10 +64,10 @@ class Configuration:
             return self._config["options"].getfloat(key)
         return self._config["options"][key]
 
-    def set(self, key: str, value: Union[bool, int, float, str]):
+    def set(self, key: str, value: Union[bool, int, float, str]) -> None:
         """Set a value in the configuration."""
         self._config["options"][key] = str(value)
 
     @property
-    def empty(self):
+    def empty(self) -> bool:
         return self._config.sections() == []

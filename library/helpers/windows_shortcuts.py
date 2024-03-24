@@ -19,8 +19,11 @@ def read_shortcut(link: pathlib.WindowsPath) -> pathlib.WindowsPath:
     return pathlib.WindowsPath(shortcut.Targetpath)
 
 
-def create_shortcut(link_path: pathlib.WindowsPath, item_to_link_to: pathlib.WindowsPath,
-                    arguments: Optional[str] = ""):
+def create_shortcut(
+        link_path: pathlib.WindowsPath,
+        item_to_link_to: pathlib.WindowsPath,
+        arguments: Optional[str] = ""
+) -> None:
     """Create a windows shortcut file."""
     shell = win32com.client.Dispatch('WScript.Shell')
     shortcut = shell.CreateShortCut(str(link_path))

@@ -11,7 +11,7 @@ from library.helpers import pyinstaller_asset, windows_startup
 class MainFrame(wx.Frame):
     """Main Frame of the GUI."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Set up Main Frame."""
         super().__init__(parent=None, title=constants.PROGRAM_NAME)
         self.Bind(wx.EVT_CLOSE, lambda _: wx.Exit())
@@ -173,14 +173,14 @@ class MainFrame(wx.Frame):
         self.SetSizerAndFit(frame_sizer)
         self.Center()
 
-    def on_flatten_folder_containing_only_one_item_checkbox(self, event):
+    def on_flatten_folder_containing_only_one_item_checkbox(self, event: wx.CommandEvent) -> None:
         """Enable/disable exceptions button for flatten folder containing only one item setting."""
         if event.IsChecked():
             self.flatten_folder_containing_only_one_item_exceptions_button.Enable()
         else:
             self.flatten_folder_containing_only_one_item_exceptions_button.Disable()
 
-    def open_flatten_folders_list(self):
+    def open_flatten_folders_list(self) -> None:
         """Open the whitelist or blacklist for the flatten folders option."""
         list_window = ExceptionList(
             self,
@@ -189,7 +189,7 @@ class MainFrame(wx.Frame):
         )
         list_window.ShowModal()
 
-    def open_flatten_folders_containing_only_one_item_exception_list(self):
+    def open_flatten_folders_containing_only_one_item_exception_list(self) -> None:
         """Open the exceptions list for the flatten folders containing only one item option."""
         exceptions_list = ExceptionList(
             self,
@@ -198,13 +198,13 @@ class MainFrame(wx.Frame):
         )
         exceptions_list.ShowModal()
 
-    def open_delete_based_on_file_type_list(self):
+    def open_delete_based_on_file_type_list(self) -> None:
         """Open the list that manages the file types based on which files should be deleted."""
         exceptions_list = ExceptionList(self, title="Delete based on file type list",
                                         file=constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH)
         exceptions_list.ShowModal()
 
-    def open_delete_files_with_names_containing_list(self):
+    def open_delete_files_with_names_containing_list(self) -> None:
         """Open the list that manages the strings based on which files
          whose names contain them should be deleted.
          """
@@ -212,7 +212,7 @@ class MainFrame(wx.Frame):
                                     file=constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH)
         target_list.ShowModal()
 
-    def save_config(self):
+    def save_config(self) -> None:
         """Saves the current configuration."""
         if (self.flatten_folder_radiobox.GetStringSelection()
                 == "contain one of the words in the list"):
@@ -233,20 +233,20 @@ class MainFrame(wx.Frame):
         self.config.set("Delete_broken_links_bool", self.delete_broken_links_checkbox.IsChecked())
         self.config.save()
 
-    def start_scanning(self):
+    def start_scanning(self) -> None:
         """Start scanning and hide GUI except for taskbar icon."""
         self.Hide()
         self.task_bar_icon.show()
         self.save_config()
         self.start_menu_helper.start_cleaning()
 
-    def stop_scanning(self):
+    def stop_scanning(self) -> None:
         """Stop scanning and show GUI."""
         self.task_bar_icon.hide()
         self.Show()
         self.start_menu_helper.stop_cleaning()
 
-    def switch_startup(self):
+    def switch_startup(self) -> None:
         """Switches between adding the program to startup and removing it."""
         if windows_startup.is_added():
             windows_startup.remove()
