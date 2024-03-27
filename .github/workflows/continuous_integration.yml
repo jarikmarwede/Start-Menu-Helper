@@ -33,6 +33,6 @@ jobs:
         pylint ./library --disable=E,W1202 --exit-zero
         pylint ./library --extension-pkg-whitelist=wx --errors-only
     - name: Type checking with mypy
-      run: mypy --install-types --non-interactive --ignore-missing-imports --disallow-untyped-defs main.py
+      run: mypy --install-types --non-interactive
     - name: Lint with bandit
       run: bandit -r .
