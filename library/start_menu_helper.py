@@ -100,7 +100,9 @@ def flatten_folders_containing_one_file() -> None:
             blacklist = file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
-        for directory in get_nested_directories(path):
+        nested_directories = get_nested_directories(path)
+        nested_directories.reverse()  # Reverse the list to flatten the deepest folders first
+        for directory in nested_directories:
             if (directory.exists() and
                     len(list(directory.iterdir())) <= 1 and
                     directory.name not in blacklist and
@@ -118,7 +120,9 @@ def flatten_folders_with_whitelist() -> None:
             whitelist = file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
-        for directory in get_nested_directories(path):
+        nested_directories = get_nested_directories(path)
+        nested_directories.reverse()  # Reverse the list to flatten the deepest folders first
+        for directory in nested_directories:
             if (directory.name in whitelist and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
@@ -134,7 +138,9 @@ def flatten_folders_with_blacklist() -> None:
             blacklist = file.read().splitlines()
 
     for path in constants.START_MENU_PROGRAMS_PATHS:
-        for directory in get_nested_directories(path):
+        nested_directories = get_nested_directories(path)
+        nested_directories.reverse()  # Reverse the list to flatten the deepest folders first
+        for directory in nested_directories:
             if (directory.name not in blacklist and
                     directory.name not in constants.PROTECTED_FOLDERS):
                 for item in directory.iterdir():
