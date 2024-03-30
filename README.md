@@ -23,7 +23,8 @@ To install the program download the setup for the [latest version](https://githu
 
 ## How to use
 ### :exclamation: Warning
-This program can delete or destroy your start menu if you configure it the wrong way. So be careful and __do not switch on an option without knowing what it does__. It is advised that you make a [backup](#floppy_disk-backup) of the start menu folders before you use this program.
+> [!CAUTION]
+> This program can delete or destroy your start menu if you configure it the wrong way. So be careful and __do not switch on an option without knowing what it does__. It is advised that you make a [backup](#floppy_disk-backup) of the start menu folders before you use this program.
 
 ### :floppy_disk: Backup
 To backup your Start menu you just have to copy two folders to a save place on your computer.
