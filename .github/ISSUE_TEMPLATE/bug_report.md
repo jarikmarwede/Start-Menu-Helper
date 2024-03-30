@@ -28,6 +28,7 @@ If applicable, add screenshots to help explain your problem.
 
 **Cleaning log:**
 If applicable, add the content of the cleaning log file from `%AppData%\Start Menu Helper\log.txt`.
+You can censor file names or paths with `*` if you don't want them to be public.
 
 **Additional context**
 Add any other context about the problem here.
