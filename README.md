@@ -27,7 +27,7 @@ To install the program download the setup for the [latest version](https://githu
 > This program can delete or destroy your start menu if you configure it the wrong way. So be careful and __do not switch on an option without knowing what it does__. It is advised that you make a [backup](#floppy_disk-backup) of the start menu folders before you use this program.
 
 ### :floppy_disk: Backup
-To backup your Start menu you just have to copy two folders to a save place on your computer.
+To backup your Start menu you just have to copy two folders to a safe place on your computer.
 1. "__Drive letter of the drive you installed windows on__:\Users\\__your username__\AppData\Roaming\Microsoft\Windows\Start Menu"
 2. "__Drive letter of the drive you installed windows on__:\ProgramData\Microsoft\Windows\Start Menu"
 
