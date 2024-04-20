@@ -2,7 +2,7 @@
 import pathlib
 
 PROGRAM_NAME = "Start Menu Helper"
-VERSION_NUMBER = "1.1.4"
+VERSION_NUMBER = "1.1.5"
 ICON_FILE_NAME = "icon.ico"
 TIME_BETWEEN_SCANS_IN_MINUTES = 5
 APP_DATA_PATH = pathlib.WindowsPath.home().joinpath("AppData")
