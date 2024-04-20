@@ -123,11 +123,14 @@ def flatten_folders_with_whitelist() -> None:
         nested_directories = get_nested_directories(path)
         nested_directories.reverse()  # Reverse the list to flatten the deepest folders first
         for directory in nested_directories:
-            if (directory.name in whitelist and
-                    directory.name not in constants.PROTECTED_FOLDERS):
-                for item in directory.iterdir():
-                    item.replace(path.joinpath(item.name))
-                logging.info(f"Flattened folder: {str(directory)}")
+            if directory.name in constants.PROTECTED_FOLDERS:
+                continue
+            for word in whitelist:
+                if word in directory.name:
+                    for item in directory.iterdir():
+                        item.replace(path.joinpath(item.name))
+                    logging.info(f"Flattened folder: {str(directory)}")
+                    break
 
 
 def flatten_folders_with_blacklist() -> None:
