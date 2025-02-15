@@ -1,4 +1,5 @@
 """Helper functions for file system operations."""
+import ctypes
 import pathlib
 from typing import List
 
@@ -47,3 +48,8 @@ def resolve_files(files: List[pathlib.WindowsPath]) -> List[pathlib.WindowsPath]
         else:
             resolved_files.append(file.resolve())
     return resolved_files
+
+def file_is_writable(file: pathlib.WindowsPath) -> bool:
+    """Return whether the file is writable."""
+    file_attributes = ctypes.windll.kernel32.GetFileAttributesW(str(file))
+    return not file_attributes & 0x01
