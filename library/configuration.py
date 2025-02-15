@@ -80,7 +80,8 @@ class Configuration:
             option = self._config["options"].getfloat(key)
         else:
             option = self._config["options"][key]
-        assert option is not None
+        if option is None:
+            raise RuntimeError("Config value is None")
         return option
 
     def set(self, key: str, value: Union[bool, int, float, str]) -> None:
