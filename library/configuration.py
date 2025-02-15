@@ -1,7 +1,7 @@
 """Loads, edits and saves the configuration."""
 import configparser
 import pathlib
-from typing import Optional, Union
+from typing import Optional, Union, List
 
 from library import constants
 
@@ -12,7 +12,9 @@ class Configuration:
         self._config: configparser.ConfigParser = configparser.ConfigParser()
         self._configuration_directory = configuration_directory
         self._configuration_file = configuration_directory.joinpath("config.ini")
-        self._flatten_folders_exception_path = configuration_directory.joinpath("flatten_folders_exceptions.txt")
+        self._flatten_folders_exception_path = configuration_directory.joinpath(
+            "flatten_folders_exceptions.txt"
+        )
         self._flatten_folders_with_one_item_exception_path = configuration_directory.joinpath(
             "flatten_folders_with_one_item_exceptions.txt"
         )
@@ -64,18 +66,22 @@ class Configuration:
         """Save the configuration to the configuration file."""
         if not self._configuration_directory.exists():
             self._configuration_directory.mkdir()
-        with open(self._configuration_file, "w") as configfile:
+        with open(self._configuration_file, "w", encoding="utf-8") as configfile:
             self._config.write(configfile)
 
     def get(self, key: str) -> Union[bool, int, float, str]:
         """Get a value from the configuration in its correct type."""
+        option: Union[bool, int, float, str, None]
         if key.endswith("_bool"):
-            return self._config["options"].getboolean(key)
-        if key.endswith("_int"):
-            return self._config["options"].getint(key)
-        if key.endswith("_float"):
-            return self._config["options"].getfloat(key)
-        return self._config["options"][key]
+            option = self._config["options"].getboolean(key)
+        elif key.endswith("_int"):
+            option = self._config["options"].getint(key)
+        elif key.endswith("_float"):
+            option = self._config["options"].getfloat(key)
+        else:
+            option = self._config["options"][key]
+        assert option is not None
+        return option
 
     def set(self, key: str, value: Union[bool, int, float, str]) -> None:
         """Set a value in the configuration."""
@@ -83,61 +89,61 @@ class Configuration:
 
     @property
     def _empty(self) -> bool:
-        return self._config.sections() == []
+        return not self._config.sections()
 
     @staticmethod
-    def _get_list_from_file(file_path: pathlib.Path) -> list[str]:
+    def _get_list_from_file(file_path: pathlib.Path) -> List[str]:
         """Read a newline separated list of strings from a file."""
         strings = []
         if file_path.exists():
-            with open(file_path) as file:
+            with open(file_path, encoding="utf-8") as file:
                 strings = file.read().splitlines()
 
         return strings
 
     @staticmethod
-    def _save_list_to_file(file_path: pathlib.Path, strings: list[str]) -> None:
+    def _save_list_to_file(file_path: pathlib.Path, strings: List[str]) -> None:
         """Write a newline separated list of strings to a file."""
-        with open(file_path, "w") as file:
+        with open(file_path, "w", encoding="utf-8") as file:
             for string in strings:
                 file.write(string + "\n")
 
     @property
-    def flatten_folders_exceptions(self) -> list[str]:
+    def flatten_folders_exceptions(self) -> List[str]:
         """Get list of exceptions for flattening folders."""
         return self._get_list_from_file(self._flatten_folders_exception_path)
 
     @flatten_folders_exceptions.setter
-    def flatten_folders_exceptions(self, exceptions: list[str]) -> None:
+    def flatten_folders_exceptions(self, exceptions: List[str]) -> None:
         """Set list of exceptions for flattening folders."""
         self._save_list_to_file(self._flatten_folders_exception_path, exceptions)
 
     @property
-    def flatten_folders_containing_one_file_exceptions(self) -> list[str]:
+    def flatten_folders_containing_one_file_exceptions(self) -> List[str]:
         """Get list of exceptions for flattening folders only containing one file."""
         return self._get_list_from_file(self._flatten_folders_with_one_item_exception_path)
 
     @flatten_folders_containing_one_file_exceptions.setter
-    def flatten_folders_containing_one_file_exceptions(self, exceptions: list[str]) -> None:
+    def flatten_folders_containing_one_file_exceptions(self, exceptions: List[str]) -> None:
         """Set list of exceptions for flattening folders only containing one file."""
         self._save_list_to_file(self._flatten_folders_with_one_item_exception_path, exceptions)
 
     @property
-    def delete_files_with_names_containing_list(self) -> list[str]:
+    def delete_files_with_names_containing_list(self) -> List[str]:
         """Get list of phrases to delete files by."""
         return self._get_list_from_file(self._delete_files_with_names_containing_list_path)
 
     @delete_files_with_names_containing_list.setter
-    def delete_files_with_names_containing_list(self, phrases: list[str]) -> None:
+    def delete_files_with_names_containing_list(self, phrases: List[str]) -> None:
         """Set list of phrases to delete files by."""
         self._save_list_to_file(self._delete_files_with_names_containing_list_path, phrases)
 
     @property
-    def delete_files_matching_file_types_exceptions(self) -> list[str]:
+    def delete_matching_file_types_exceptions(self) -> List[str]:
         """Get list of exceptions for deleting files (not) matching certain file types."""
         return self._get_list_from_file(self._delete_files_matching_file_types_list_path)
 
-    @delete_files_matching_file_types_exceptions.setter
-    def delete_files_matching_file_types_exceptions(self, exceptions: list[str]) -> None:
+    @delete_matching_file_types_exceptions.setter
+    def delete_matching_file_types_exceptions(self, exceptions: List[str]) -> None:
         """Set list of exceptions for deleting files (not) matching certain file types."""
         self._save_list_to_file(self._delete_files_matching_file_types_list_path, exceptions)

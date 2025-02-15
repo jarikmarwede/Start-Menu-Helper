@@ -3,10 +3,11 @@ import unittest
 from pathlib import WindowsPath
 from unittest.mock import Mock
 
-import library.helpers.file_system as file_system
+from library.helpers import file_system
 
 
 class TestFileSystemHelpers(unittest.TestCase):
+    """Test the file_system helper functions."""
     def test_get_nested_directories(self):
         """Test get_nested_directories."""
         start_menu_directory = Mock(WindowsPath)

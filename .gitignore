@@ -130,5 +130,6 @@ config.ini
 delete_based_on_file_type_list.txt
 flatten_folders_exceptions.txt
 delete_files_with_names_containing.txt
+log.txt
 Start Menu Helper.exe
 Start_Menu_Helper_Setup.exe

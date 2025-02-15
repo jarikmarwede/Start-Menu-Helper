@@ -6,7 +6,7 @@ from library.gui.exception_list import ExceptionList
 
 
 class DeleteFilesWithNamesContainingList(ExceptionList):
-    """A list widget that allows users to edit the list of phrases based on which files containing them in their file name should be deleted."""
+    """List widget for editing list of phrases for deleting files containing them in their file name."""
     def __init__(self, parent: Window, title: str, configuration: Configuration):
         super().__init__(parent, title)
         self._configuration = configuration
