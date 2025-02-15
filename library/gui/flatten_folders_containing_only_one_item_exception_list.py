@@ -6,7 +6,7 @@ from library.gui.exception_list import ExceptionList
 
 
 class FlattenFoldersContainingOnlyOneItemExceptionList(ExceptionList):
-    """A list widget that allows users to edit the exceptions for the flatten folders that only contain on item functionality."""
+    """List widget for editing exceptions for the flatten folders that only contain on item functionality."""
     def __init__(self, parent: Window, title: str, configuration: Configuration):
         super().__init__(parent, title)
         self._configuration = configuration

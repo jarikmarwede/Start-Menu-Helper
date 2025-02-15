@@ -1,0 +1,6 @@
+[tool.pylint.main]
+disable = "W1202"
+extension-pkg-allow-list="wx"
+max-line-length=120
+# Has to be this high because of wxPythons class hierarchy
+max-parents=9

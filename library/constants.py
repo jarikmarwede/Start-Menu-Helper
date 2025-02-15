@@ -12,7 +12,9 @@ STARTUP_PATH = pathlib.WindowsPath.home().drive + \
                "\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
 EXECUTABLE_PATH = pathlib.WindowsPath.cwd().joinpath(PROGRAM_NAME + ".exe")
 START_MENU_PATHS = [
-    pathlib.WindowsPath(pathlib.WindowsPath.home().drive + "/ProgramData/Microsoft/Windows/Start Menu"),
+    pathlib.WindowsPath(
+        pathlib.WindowsPath.home().drive + "/ProgramData/Microsoft/Windows/Start Menu"
+    ),
     APP_DATA_PATH.joinpath("Roaming/Microsoft/Windows/Start Menu")
 ]
 START_MENU_PROGRAMS_PATHS = [
