@@ -1,9 +1,15 @@
 """Main frame of the GUI."""
+import pathlib
+
 import wx
 import wx.adv
 
 from library import configuration, constants, start_menu_helper
-from library.gui.exception_list import ExceptionList
+from library.gui.delete_based_on_file_type_list import DeleteFilesMatchingFileTypesExceptionsList
+from library.gui.delete_files_with_names_containing_list import DeleteFilesWithNamesContainingList
+from library.gui.flatten_folders_containing_only_one_item_exception_list import \
+    FlattenFoldersContainingOnlyOneItemExceptionList
+from library.gui.flatten_folders_exception_list import FlattenFoldersExceptionList
 from library.gui.task_bar_icon import TaskBarIcon
 from library.helpers import pyinstaller_asset, windows_startup
 
@@ -11,7 +17,7 @@ from library.helpers import pyinstaller_asset, windows_startup
 class MainFrame(wx.Frame):
     """Main Frame of the GUI."""
 
-    def __init__(self) -> None:
+    def __init__(self, configuration_directory: pathlib.Path) -> None:
         """Set up Main Frame."""
         super().__init__(parent=None, title=constants.PROGRAM_NAME)
         self.Bind(wx.EVT_CLOSE, lambda _: wx.Exit())
@@ -22,8 +28,8 @@ class MainFrame(wx.Frame):
 
         self.task_bar_icon = TaskBarIcon(self.stop_scanning)
 
-        self.config = configuration.Configuration()
-        self.start_menu_helper = start_menu_helper.StartMenuHelper()
+        self.config = configuration.Configuration(configuration_directory)
+        self.start_menu_helper = start_menu_helper.StartMenuHelper(self.config)
 
         # Widgets
         main_panel = wx.Panel(self)
@@ -182,34 +188,40 @@ class MainFrame(wx.Frame):
 
     def open_flatten_folders_list(self) -> None:
         """Open the whitelist or blacklist for the flatten folders option."""
-        list_window = ExceptionList(
+        list_window = FlattenFoldersExceptionList(
             self,
-            title="Flatten folders list",
-            file=constants.FLATTEN_FOLDERS_EXCEPTIONS_PATH
+            "Flatten folders list",
+            self.config
         )
         list_window.ShowModal()
 
     def open_flatten_folders_containing_only_one_item_exception_list(self) -> None:
         """Open the exceptions list for the flatten folders containing only one item option."""
-        exceptions_list = ExceptionList(
+        exceptions_list = FlattenFoldersContainingOnlyOneItemExceptionList(
             self,
-            title="Flatten folders containing only one item exceptions",
-            file=constants.FLATTEN_FOLDERS_WITH_ONE_ITEM_EXCEPTIONS_PATH
+            "Flatten folders containing only one item exceptions",
+            self.config
         )
         exceptions_list.ShowModal()
 
     def open_delete_based_on_file_type_list(self) -> None:
         """Open the list that manages the file types based on which files should be deleted."""
-        exceptions_list = ExceptionList(self, title="Delete based on file type list",
-                                        file=constants.DELETE_FILES_MATCHING_FILE_TYPES_LIST_PATH)
+        exceptions_list = DeleteFilesMatchingFileTypesExceptionsList(
+            self,
+            "Delete based on file type list",
+            self.config
+        )
         exceptions_list.ShowModal()
 
     def open_delete_files_with_names_containing_list(self) -> None:
         """Open the list that manages the strings based on which files
          whose names contain them should be deleted.
          """
-        target_list = ExceptionList(self, title="Delete based on file name containing",
-                                    file=constants.DELETE_FILES_WITH_NAMES_CONTAINING_LIST_PATH)
+        target_list = DeleteFilesWithNamesContainingList(
+            self,
+            "Delete based on file name containing",
+            self.config
+        )
         target_list.ShowModal()
 
     def save_config(self) -> None:

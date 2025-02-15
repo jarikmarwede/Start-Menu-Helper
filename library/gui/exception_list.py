@@ -1,6 +1,5 @@
-"""Edit the exceptions for different cleaning functions."""
-import os
-from pathlib import WindowsPath
+"""Edit the exceptions for different cleaning rules."""
+from abc import abstractmethod
 
 import wx
 import wx.adv
@@ -8,11 +7,9 @@ from wx import Window
 
 
 class ExceptionList(wx.Dialog):
-    """A list widget that allows users to edit the exception files."""
-    def __init__(self, parent: Window, title: str, file: WindowsPath):
+    """A list widget that allows users to edit the exceptions to cleaning rules."""
+    def __init__(self, parent: Window, title: str):
         super().__init__(parent=parent, title=title)
-
-        self.file = file
 
         # widgets
         main_panel = wx.Panel(self)
@@ -41,23 +38,16 @@ class ExceptionList(wx.Dialog):
 
         main_panel.SetSizer(main_sizer)
 
-        self.load()
-
         self.SetSizerAndFit(frame_sizer)
         self.Center()
 
+    @abstractmethod
     def load(self) -> None:
         """Load the list from its file."""
-        if os.path.exists(self.file):
-            with open(self.file) as file:
-                self.exceptions_list.SetStrings(file.read().splitlines())
 
+    @abstractmethod
     def save(self) -> None:
         """Save the list and close the dialog."""
-        with open(self.file, "w") as file:
-            for string in self.exceptions_list.GetStrings():
-                file.write(string + "\n")
-        self.close()
 
     def close(self) -> None:
         """Close the dialog."""
