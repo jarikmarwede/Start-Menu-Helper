@@ -10,7 +10,8 @@ from library.helpers.file_system import (
     get_nested_directories,
     get_nested_files,
     get_nested_links,
-    resolve_files
+    resolve_files,
+    file_is_writable
 )
 from library.helpers.stopable_thread import StoppableThread
 
@@ -75,7 +76,7 @@ class StartMenuHelper:
         """Move all files to the programs directory."""
         for path in constants.START_MENU_PATHS:
             for item in path.iterdir():
-                if item.name != "Programs":
+                if item.name != "Programs" and file_is_writable(item):
                     item.replace(path.joinpath("Programs").joinpath(item.name))
 
     def delete_duplicates(self) -> None:
