@@ -4,6 +4,8 @@ import pathlib
 PROGRAM_NAME = "Start Menu Helper"
 VERSION_NUMBER = "1.2.1"
 ICON_FILE_NAME = "icon.ico"
+DOCUMENTATION_URL = "https://github.com/jarikmarwede/Start-Menu-Helper?tab=readme-ov-file#how-to-use"
+ISSUE_TRACKER_URL = "https://github.com/jarikmarwede/Start-Menu-Helper/issues"
 TIME_BETWEEN_SCANS_IN_MINUTES = 5
 APP_DATA_PATH = pathlib.WindowsPath.home().joinpath("AppData")
 DEFAULT_CONFIGURATION_PATH = APP_DATA_PATH.joinpath("Roaming").joinpath(PROGRAM_NAME)

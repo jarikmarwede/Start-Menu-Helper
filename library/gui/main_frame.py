@@ -10,6 +10,7 @@ from library.gui.delete_files_with_names_containing_list import DeleteFilesWithN
 from library.gui.flatten_folders_containing_only_one_item_exception_list import \
     FlattenFoldersContainingOnlyOneItemExceptionList
 from library.gui.flatten_folders_exception_list import FlattenFoldersExceptionList
+from library.gui.main_menu import MainMenu
 from library.gui.task_bar_icon import TaskBarIcon
 from library.helpers import pyinstaller_asset, windows_startup
 
@@ -32,6 +33,9 @@ class MainFrame(wx.Frame):
         self.start_menu_helper = start_menu_helper.StartMenuHelper(self.config)
 
         # Widgets
+        main_menu = MainMenu()
+        self.SetMenuBar(main_menu)
+
         main_panel = wx.Panel(self)
 
         self.flatten_folder_radiobox = wx.RadioBox(
