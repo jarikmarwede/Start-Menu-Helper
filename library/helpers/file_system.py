@@ -49,6 +49,7 @@ def resolve_files(files: List[pathlib.WindowsPath]) -> List[pathlib.WindowsPath]
             resolved_files.append(file.resolve())
     return resolved_files
 
+
 def file_is_writable(file: pathlib.WindowsPath) -> bool:
     """Return whether the file is writable."""
     file_attributes = ctypes.windll.kernel32.GetFileAttributesW(str(file))
