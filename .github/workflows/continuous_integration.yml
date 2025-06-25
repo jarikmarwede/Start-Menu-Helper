@@ -8,6 +8,9 @@ on:
       - '**.py'
       - 'requirements.txt'
 
+permissions:
+  contents: read
+
 jobs:
   flake8:
     runs-on: windows-latest
