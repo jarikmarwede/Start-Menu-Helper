@@ -52,6 +52,6 @@ class MainMenu(wx.MenuBar):
         elif event_id == ID_OPEN_ISSUE_TRACKER:
             webbrowser.open_new_tab(ISSUE_TRACKER_URL)
         elif event_id == ID_OPEN_CONFIG_DIRECTORY:
-            os.startfile(self._config_directory)
+            os.startfile(self._config_directory, "explore") # nosec B606
         elif event_id == ID_OPEN_LOG_FILE:
-            os.startfile(self._config_directory.joinpath(LOG_FILE_NAME))
+            os.startfile(self._config_directory.joinpath(LOG_FILE_NAME), "open") # nosec B606
