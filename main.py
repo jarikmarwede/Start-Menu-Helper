@@ -10,16 +10,6 @@ import wx
 from library import constants, gui
 
 if __name__ == "__main__":
-    if not os.path.exists(constants.DEFAULT_CONFIGURATION_PATH):
-        os.mkdir(constants.DEFAULT_CONFIGURATION_PATH)
-
-    logging.basicConfig(
-        level=logging.INFO,
-        filename=constants.LOG_FILE_PATH,
-        filemode="a",
-        format="%(asctime)s - %(levelname)s - %(message)s"
-    )
-
     argument_parser = argparse.ArgumentParser()
     argument_parser.add_argument(
         "-b",
@@ -36,11 +26,22 @@ if __name__ == "__main__":
     )
     arguments = argument_parser.parse_args()
 
-    app = wx.App()
     configuration_directory = constants.DEFAULT_CONFIGURATION_PATH
     if arguments.config_directory:
-        configuration_directory = arguments.config_directory
-    main_frame = gui.MainFrame(pathlib.Path(configuration_directory))
+        configuration_directory = pathlib.WindowsPath(arguments.config_directory)
+
+    if not os.path.exists(configuration_directory):
+        os.mkdir(configuration_directory)
+
+    logging.basicConfig(
+        level=logging.INFO,
+        filename=configuration_directory.joinpath(constants.LOG_FILE_NAME),
+        filemode="a",
+        format="%(asctime)s - %(levelname)s - %(message)s"
+    )
+
+    app = wx.App()
+    main_frame = gui.MainFrame(configuration_directory)
     if arguments.start_in_background:
         main_frame.start_scanning()
     else:

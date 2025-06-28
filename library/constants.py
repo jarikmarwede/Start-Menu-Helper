@@ -9,7 +9,7 @@ ISSUE_TRACKER_URL = "https://github.com/jarikmarwede/Start-Menu-Helper/issues"
 TIME_BETWEEN_SCANS_IN_MINUTES = 5
 APP_DATA_PATH = pathlib.WindowsPath.home().joinpath("AppData")
 DEFAULT_CONFIGURATION_PATH = APP_DATA_PATH.joinpath("Roaming").joinpath(PROGRAM_NAME)
-LOG_FILE_PATH = DEFAULT_CONFIGURATION_PATH.joinpath("log.txt")
+LOG_FILE_NAME = "log.txt"
 STARTUP_PATH = pathlib.WindowsPath.home().drive + \
                "\\ProgramData\\Microsoft\\Windows\\Start Menu\\Programs\\Startup"
 EXECUTABLE_PATH = pathlib.WindowsPath.cwd().joinpath(PROGRAM_NAME + ".exe")
