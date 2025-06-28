@@ -33,7 +33,7 @@ class MainFrame(wx.Frame):
         self.start_menu_helper = start_menu_helper.StartMenuHelper(self.config)
 
         # Widgets
-        main_menu = MainMenu()
+        main_menu = MainMenu(configuration_directory)
         self.SetMenuBar(main_menu)
 
         main_panel = wx.Panel(self)
