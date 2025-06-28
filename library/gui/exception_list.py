@@ -3,12 +3,11 @@ from abc import abstractmethod
 
 import wx
 import wx.adv
-from wx import Window
 
 
 class ExceptionList(wx.Dialog):
     """A list widget that allows users to edit the exceptions to cleaning rules."""
-    def __init__(self, parent: Window, title: str):
+    def __init__(self, parent: wx.Window, title: str):
         super().__init__(parent=parent, title=title)
 
         # widgets
