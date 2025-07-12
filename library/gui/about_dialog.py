@@ -22,11 +22,15 @@ class AboutDialog(wx.Dialog):
             label=f"Version: {constants.VERSION_NUMBER}"
         )
 
+        close_button = wx.Button(main_panel, label="Close")
+        close_button.Bind(wx.EVT_BUTTON, lambda e: self.Close())
+
         frame_sizer = wx.BoxSizer(wx.VERTICAL)
         main_sizer = wx.BoxSizer(wx.VERTICAL)
 
         main_sizer.Add(heading_text, flag=wx.ALL, border=5)
         main_sizer.Add(about_text, flag=wx.ALL, border=5)
+        main_sizer.Add(close_button, flag=wx.ALL | wx.ALIGN_RIGHT, border=5)
 
         frame_sizer.Add(main_panel, flag=wx.ALL | wx.EXPAND, border=10)
 
