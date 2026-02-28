@@ -2,7 +2,7 @@
 import pathlib
 
 PROGRAM_NAME = "Start Menu Helper"
-VERSION_NUMBER = "1.2.1"
+VERSION_NUMBER = "1.2.2"
 ICON_FILE_NAME = "icon.ico"
 DOCUMENTATION_URL = "https://github.com/jarikmarwede/Start-Menu-Helper?tab=readme-ov-file#how-to-use"
 ISSUE_TRACKER_URL = "https://github.com/jarikmarwede/Start-Menu-Helper/issues"
