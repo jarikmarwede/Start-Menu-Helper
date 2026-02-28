@@ -105,5 +105,5 @@ To generate the setup:
 
 Alternatively if you do not want to install it to "C:\Program Files (x86)":
 1. Install [Inno Setup](http://www.jrsoftware.org/isdl.php) anywhere
-2. Open ".\scripts\setup_script.iss" in Inno Setup
+2. Open ".\setup.iss" in Inno Setup
 3. Click "Compile"

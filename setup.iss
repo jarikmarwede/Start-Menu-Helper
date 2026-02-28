@@ -7,6 +7,7 @@
 #define MySetupName "Start_Menu_Helper_Setup"
 #define MyAppLicenseName "LICENSE"
 #define MyAppIconName "icon.ico"
+#define MyReadmeName "README.md"
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -21,12 +22,12 @@ AppSupportURL={#MyAppURL}
 AppUpdatesURL={#MyAppURL}
 DefaultDirName={autopf}\{#MyAppName}
 DisableProgramGroupPage=yes
-LicenseFile={#SourcePath}..\{#MyAppLicenseName}
+LicenseFile={#MyAppLicenseName}
 ; Uncomment the following line to run in non administrative install mode (install for current user only.)
 ;PrivilegesRequired=lowest
-OutputDir={#SourcePath}..
+OutputDir=setup
 OutputBaseFilename={#MySetupName}
-SetupIconFile={#SourcePath}..\{#MyAppIconName}
+SetupIconFile={#MyAppIconName}
 Compression=lzma
 SolidCompression=yes
 WizardStyle=modern
@@ -38,7 +39,8 @@ Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "{#SourcePath}..\{#MyAppName}.exe"; DestDir: "{app}"; Flags: ignoreversion
+Source: "dist\{#MyAppName}\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs
+Source: "{#MyReadmeName}"; DestDir: "{app}"; Flags: ignoreversion isreadme
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
